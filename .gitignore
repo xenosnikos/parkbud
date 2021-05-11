@@ -49,10 +49,10 @@ Thumbs.db
 *.wmv
 
 # Vendor
-/vendor
-vendor/
+vendor
+
 
 # tmplcache
-/tmplcache
-tmplcache/
+tmplcache
+
 
