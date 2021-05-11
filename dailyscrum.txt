@@ -2,6 +2,19 @@ DAILY SCRUM
 
 May 11th 2021
 
+Nick
+1.Done / not done since last scrum:
+-created repo and trello boards
+2.To do until next Scrum:
+-	Updating Trello
+-	Creating local database
+-	scope high level functions and delegate tasks
+3.Need assistance / figure things out
+- N/A
+
+
+
+Ali
 1. Done / not done since last scrum:
 -	Project proposal (Added URLs, Scenarios, Profile page mockup, Modified main page mockup, and Features and Functionalities)
 
