@@ -48,3 +48,11 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Vendor
+/vendor
+vendor/
+
+# tmplcache
+/tmplcache
+tmplcache/
+
