@@ -49,3 +49,14 @@ Ali
 -	Start to work on project settings
 3. Need assistance / figure things out
 -	TBD
+
+Philip
+1.Done / not done since last scrum:
+-Reviewed material from class / continued youtube tutorials on PHP
+2.To do until next Scrum:
+-	get setup with team for database
+-	determine which tasks to start with
+3.Need assistance / figure things out
+-TBD
+
+================================================
