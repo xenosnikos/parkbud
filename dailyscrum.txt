@@ -82,3 +82,15 @@ Ali
 -	Working on Register page
 3. Need assistance / figure things out
 -	TBD
+
+Nick
+1. Done / not done since last scrum:
+-	breakdown of json for  parking rule
+-	Working on local database
+-   experimmented with google iframe for map
+
+2. To do until next Scrum:
+-	code addrule page
+
+3. Need assistance / figure things out
+-	TBD
