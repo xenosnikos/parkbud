@@ -59,4 +59,14 @@ Philip
 3.Need assistance / figure things out
 -TBD
 
+Nick
+1.Done / not done since last scrum:
+-started set up of trello board with high level user stories
+2.To do until next Scrum:
+-	read dodumentation/tutorials for google map php/sql interaction
+-	prepare breakdown of parking rule json files
+-   sprint planning
+3.Need assistance / figure things out
+-TBD
+
 ================================================
