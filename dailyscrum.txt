@@ -125,3 +125,13 @@ Philip
 3.Need assistance / figure things out
 -TBD
 
+Ali
+1. Done / not done since last scrum:
+-	Did project setup: created composer.json, index.php, init.php, and templates (index, master, register, rule)
+-	fixed database error
+
+2. To do until next Scrum:
+-	Working on Register page
+
+3. Need assistance / figure things out
+-	TBD
