@@ -55,4 +55,6 @@ vendor
 # tmplcache
 tmplcache
 
+.vscode
+sftp.json
 
