@@ -94,3 +94,17 @@ Nick
 
 3. Need assistance / figure things out
 -	TBD
+=================================================
+May 14th 2021 
+
+Nick 
+1. Done / not done since last scrum:
+-	set up local evironment and db
+-	started layout for addrule.php
+
+2. To do until next Scrum:
+-	complete html 
+-	set up map search
+-	add record to db
+3. Need assistance / figure things out
+-	how to leverage twig template 
