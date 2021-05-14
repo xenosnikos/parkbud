@@ -94,6 +94,14 @@ Nick
 
 3. Need assistance / figure things out
 -	TBD
+
+Philip
+1.Done / not done since last scrum:
+-Continued youtube tutorials on PHP
+2.To do until next Scrum:
+- Setup main pages with team
+3.Need assistance / figure things out
+-TBD
 =================================================
 May 14th 2021 
 
@@ -108,3 +116,12 @@ Nick
 -	add record to db
 3. Need assistance / figure things out
 -	how to leverage twig template 
+
+Philip
+1.Done / not done since last scrum:
+-Team setup main files \ ready to start index.php
+2.To do until next Scrum:
+- Implement index.php \ main page
+3.Need assistance / figure things out
+-TBD
+
