@@ -159,3 +159,13 @@ Philip
 - Continue work on index.php
 3.Need assistance / figure things out
 -TBD
+
+Nick
+1.Done / not done since last scrum:
+-Started ad rule form / days
+2.To do until next Scrum:
+- Continue wadd rule form/ time picker
+- import working map
+- start php value parsing
+3.Need assistance / figure things out
+-N/A
