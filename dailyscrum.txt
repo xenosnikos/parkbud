@@ -151,3 +151,11 @@ Ali
 
 3. Need assistance / figure things out
 -	TBD
+
+Philip
+1.Done / not done since last scrum:
+-Implemented the map/autocomplete feature with API key
+2.To do until next Scrum:
+- Continue work on index.php
+3.Need assistance / figure things out
+-TBD
