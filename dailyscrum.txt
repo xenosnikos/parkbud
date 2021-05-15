@@ -135,3 +135,19 @@ Ali
 
 3. Need assistance / figure things out
 -	TBD
+
+=================================================
+May 15th 2021 
+
+Ali
+1. Done / not done since last scrum:
+-	Worked on Register page
+-	Worked on Header in Master.html.twig
+-	Trying to split pages of project
+
+2. To do until next Scrum:
+-	Working on Login & Register page
+-	Spliting project files
+
+3. Need assistance / figure things out
+-	TBD
