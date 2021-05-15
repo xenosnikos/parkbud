@@ -1,0 +1,30 @@
+{% extends "master.html.twig" %}
+
+{% block content %}
+    <p>TEST</p>
+
+    //Code snippet for the map API
+    <input
+      id="pac-input"
+      class="controls"
+      type="text"
+      placeholder="Search Box"
+    />
+    <div id="map" style="height:600px;width:800px;"></div>
+
+
+
+
+
+    <script src="./index.js"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"
+      async
+    ></script>
+
+    
+
+{% endblock %}
