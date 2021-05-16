@@ -1,6 +1,7 @@
 <?php
 
 require_once 'vendor/autoload.php';
+require_once 'init.php';
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -16,10 +17,10 @@ $twig = new Environment($loader);
 
 $app->get("/main", function ($request, $response, $args) {
     global $twig;
-    return $response->write($twig->render('index.html.twig', ['title' => 'Parkbud']));
+    return $response->write($twig->render('main.html.twig', ['title' => 'Parkbud']));
 });
 
-$app->get("/register", function ($request, $response, $args) {
-    global $twig;
-    return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
-});
+//$app->get("/register", function ($request, $response, $args) {
+//    global $twig;
+//    return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
+//});
