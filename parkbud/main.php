@@ -20,7 +20,3 @@ $app->get("/main", function ($request, $response, $args) {
     return $response->write($twig->render('main.html.twig', ['title' => 'Parkbud']));
 });
 
-//$app->get("/register", function ($request, $response, $args) {
-//    global $twig;
-//    return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
-//});
