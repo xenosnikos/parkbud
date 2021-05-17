@@ -169,3 +169,18 @@ Nick
 - start php value parsing
 3.Need assistance / figure things out
 -N/A
+
+=================================================
+May 17th 2021 
+Ali
+1. Done / not done since last scrum:
+-	Improved Register page
+-	Improved Header in Master.html.twig
+-	Splited pages of project
+
+2. To do until next Scrum:
+-	Working on Login page
+-	Working on session
+
+3. Need assistance / figure things out
+-	TBD
