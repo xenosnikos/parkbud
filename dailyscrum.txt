@@ -197,3 +197,12 @@ Nick
 
 3. Need assistance / figure things out
 -	Removing year from date picker 
+
+Philip
+1.Done / not done since last scrum:
+-Cleaned up HTML for main files
+-Continued work on index.php
+2.To do until next Scrum:
+- Setup site hosting with group
+3.Need assistance / figure things out
+-TBD
