@@ -7,9 +7,9 @@ require_once 'vendor/autoload.php';
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-DB::$dbName = 'day03people';
-DB::$user = 'day03people';
-DB::$password = 'G455ehMuGRmdCq70';
+DB::$dbName = 'cp5003_parkbud';
+DB::$user = 'cp5003_parkbud';
+DB::$password = 'iwnrudEHrlSf';
 DB::$host = 'localhost';
 DB::$port = 3333;
 
