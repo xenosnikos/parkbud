@@ -1,5 +1,5 @@
 .logo {
-    font-family: 'Bebas Neue', cursive;
+    font-family: "Bebas Neue", cursive;
 }
 
 nav {
@@ -8,4 +8,17 @@ nav {
 
 .spacedown {
     margin: 50px;
+}
+
+.timeInput {
+    margin-left: 20px;
+    margin: 10px;
+}
+
+.daySlot {
+    margin: 10px;
+}
+
+.hidden {
+    visibility: hidden;
 }
