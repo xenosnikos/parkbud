@@ -23,266 +23,469 @@
 
 
 	<body>
+		<div class="container">
+
+			<div class="container-fluid">
+				<h3 class="logo ">Add Rule</h1>
+				<div class="row">
 
 
-		<div class="container-fluid">
-			<h3 class="logo ">Add Rule</h1>
-			<div class="row">
+					<div
+						class="col-4 map">
+
+						<!--   MAP LEFT COLUMN -->
 
 
-				<div class="col-4 map">
-					<input
-					class="" type="text">
-					<!-- Google Map Place Holder Code -->
-					<iframe class="row " src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.2233913121413!2d77.4051603706222!3d28.50292593193056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce626851f7009%3A0x621185133cfd1ad1!2sGeeksforGeeks!5e0!3m2!1sen!2sin!4v1585040658255!5m2!1sen!2sin" width="300" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-
-
-				</div>
-				<div class="col-4">
-
-
-					<div>
-
-
-						<!-- Display Street Name from Map Search -->
-						<div class="form-group row text-center">
-							<label for="exampleInputEmail1">Street Name</label>
-							<input type="email" class="form-control" id="streetname" aria-describedby="streetname" placeholder="street name">
-
+						<input id="pac-input" class="controls" type="text" placeholder="Search Box"/>
+						<div id="mainMapContainer">
+							<div id="map" style="height:400px;width:400px;"></div>
 						</div>
-						<!-- Select Time Period For Applicable parking rules -->
-						<div class="form-group row text-center">
-							<label f or="exampleInputEmail1">Period start</label>
-							<input type="date" class="form-control" id="dateStart">
-
-						</div>
-						<div class="form-group row text-center">
-							<label for="exampleInputEmail1">Period End</label>
-							<input type="date" class="form-control" id="dateEnd">
-
-						</div>
-						<br><br>
-						<!-- TABS -->
-						<div class="ruleSect">
-							<nav class="tabBar">
-								<div class="nav nav-tabs" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
-									<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
-
-								</div>
-							</nav>
-							<div class="tab-content">
-								<div class="tab-pane active" id="a">
-									<form>
 
 
-										<!-- Set Parking restriction times per Day -->
-                                        <h3>Even Side</h3>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
+						<script src="./index.js"></script>
 
-												<input type="checkbox" name="monday" class="form-check-input col" id="monCheck">
-												<label class="form-check-label col-3" for="exampleCheck1">Monday</label>
+						<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+						<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+						<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete" async></script>
+					</div>
 
-												<div class="col">
-													start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+
+					<div
+						class="col-4">
+						<!--   FORM Center COLUMN -->
+
+						<div>
+
+
+							<!-- Display Street Name from Map Search -->
+							<div class="form-group row text-center">
+								<label for="exampleInputEmail1">Street Name</label>
+								<input type="email" class="form-control" id="streetname" aria-describedby="streetname" placeholder="street name">
+
+							</div>
+							<!-- Select Time Period For Applicable parking rules -->
+							<div class="form-group row text-center">
+								<label f or="exampleInputEmail1">Period start</label>
+								<input type="date" class="form-control" id="dateStart">
+
+							</div>
+							<div class="form-group row text-center">
+								<label for="exampleInputEmail1">Period End</label>
+								<input type="date" class="form-control" id="dateEnd">
+
+							</div>
+
+							<br><br>
+
+							<!-- TABS -->
+							<div class="ruleSect">
+								<nav class="tabBar">
+									<div class="nav nav-tabs" id="nav-tab" role="tablist">
+										<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
+										<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
+
+									</div>
+								</nav>
+
+								<div class="tab-content">
+
+									<div class="tab-pane active" id="a">
+										<br><br>
+										<p>Please Upload picture of the Even Side Parking Sign</p>
+
+										<form action="/action_page.php">
+											<input class="btn btn-primary" type="file" id="myFile" name="filename">
+
+										</form>
+										<br><br>
+
+										<nav class="tabBar">
+
+											<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+												<a class="nav-item nav-link active" data-toggle="tab" href="#mon" role="tab" aria-selected="true">Monday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#tue" role="tab" aria-selected="false">Tuesday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#wed" role="tab" aria-selected="false">Wednesday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#thu" role="tab" aria-selected="false">Thursday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#fri" role="tab" aria-selected="false">Friday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#sat" role="tab" aria-selected="false">Saturday</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#sun" role="tab" aria-selected="false">Sunday</a>
+
 
 											</div>
+										</nav>
+
+
+										<div class="tab-content">
+
+											<div class="tab-pane active" id="mon">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Monday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+
+											<div class="tab-pane" id="tue">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Tueday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+											<div class="tab-pane" id="wed">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Wednesday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+											<div class="tab-pane" id="thu">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Thursday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+											<div class="tab-pane" id="fri">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Friday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+											<div class="tab-pane" id="sat">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Saturday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+											<div class="tab-pane" id="sun">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Sunday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
+											</div>
+
+
 										</div>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Tuesday</label>
-												<div class="col">
-													start<input class="timeInput" id="tuesdayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="tuesdayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+									</div>
+
+
+									<div class="tab-pane" id="b">
+										<br><br>
+										<p>Please Upload picture of the Odd Side Parking Sign</p>
+
+										<form action="/action_page.php">
+											<input class="btn btn-primary" type="file" id="myFile" name="filename">
+
+										</form>
+										<br><br>
+
+										<nav class="tabBar">
+
+											<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+												<a class="nav-item nav-link active" data-toggle="tab" href="#omon" role="tab" aria-selected="true">Mon</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#otue" role="tab" aria-selected="false">Tue</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#owed" role="tab" aria-selected="false">Wed</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#othu" role="tab" aria-selected="false">Thu</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#ofri" role="tab" aria-selected="false">Fri</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#osat" role="tab" aria-selected="false">Sat</a>
+												<a class="nav-item nav-link" data-toggle="tab" href="#osun" role="tab" aria-selected="false">Sun</a>
+
 
 											</div>
-										</div>
+										</nav>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Wednesday</label>
-												<div class="col">
-													start<input class="timeInput" id="wednesdayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="wednesdayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+										<div class="tab-content">
 
+											<div class="tab-pane active" id="omon">
+												<form>
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Monday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
+											<div class="tab-pane" id="otue">
+												<form>
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Thursday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
 
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Tueday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
+											<div class="tab-pane" id="owed">
+												<form>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Friday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Wednesday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
 
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
+											<div class="tab-pane" id="othu">
+												<form>
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Saturday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
 
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Thursday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
+											<div class="tab-pane" id="ofri">
+												<form>
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Sunday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
 
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Friday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
-
-										<button type="submit" class="btn btn-primary">Submit</button>
-									</form>
-								</div>
-								<div class="tab-pane" id="b">
-									<form>
+											<div class="tab-pane" id="osat">
+												<form>
 
 
-										<!-- Set Parking restriction times per Day -->
-                                        <h3>Odd Side</h3>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Saturday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
 
-												<input type="checkbox" name="monday" class="form-check-input col" id="monCheck">
-												<label class="form-check-label col-3" for="exampleCheck1">Monday</label>
 
-												<div class="col">
-													start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
 
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
-										</div>
+											<div class="tab-pane" id="osun">
+												<form>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Tuesday</label>
-												<div class="col">
-													start<input class="timeInput" id="tuesdayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="tuesdayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Odd Side Sunday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
 
+
+															<div class="col">
+																start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker/><br>
+																end
+																<input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker/>
+															</div>
+
+														</div>
+													</div>
+
+
+													<button type="submit" class="btn btn-primary">Submit</button>
+												</form>
 											</div>
+
+
 										</div>
 
-										<div class="form-check container-fluid daySlot">
-											<div class="">
 
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Wednesday</label>
-												<div class="col">
-													start<input class="timeInput" id="wednesdayStart" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" id="wednesdayEnd" type="time" ng-model="test" mdp-time-picker/>
-												</div>
+									</div>
 
-											</div>
-										</div>
-
-										<div class="form-check container-fluid daySlot">
-											<div class="">
-
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Thursday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
-
-											</div>
-										</div>
-
-										<div class="form-check container-fluid daySlot">
-											<div class="">
-
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Friday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
-
-											</div>
-										</div>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
-
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Saturday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
-
-											</div>
-										</div>
-										<div class="form-check container-fluid daySlot">
-											<div class="">
-
-												<input type="checkbox" class="form-check-input col" id="exampleCheck1">
-												<label class="form-check-label col-3" for="exampleCheck1">Sunday</label>
-												<div class="col">
-													start<input class="timeInput" type="time" ng-model="test" mdp-time-picker/><br>
-													end
-													<input class="timeInput" type="time" ng-model="test" mdp-time-picker/>
-												</div>
-
-											</div>
-										</div>
-
-										<button type="submit" class="btn btn-primary">Submit</button>
-									</form>
 								</div>
 
 							</div>
@@ -293,17 +496,11 @@
 				</div>
 
 
-				<div class="col-4 text-center">
-					<h1>no parking</h1>
-				</div>
 			</div>
 
 		</div>
-
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 	</body>
-
 </html>
