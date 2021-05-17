@@ -1,9 +1,14 @@
-    .logo {
-        font-family: "Bebas Neue", cursive;
+    .tabBar {
+        margin-top: 20px;
     }
     
-    nav {
-        background: #6ca8e0;
+    .ruleSect {
+        border: solid 2px black;
+        text-align: center;
+    }
+    
+    .logo {
+        font-family: "Bebas Neue", cursive;
     }
     
     .spacedown {
