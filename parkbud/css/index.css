@@ -30,6 +30,10 @@ body {
     display: none;
 }
 
+#mainParkHeader {
+    text-align: center;
+}
+
 #map #infowindow-content {
     display: inline;
 }
