@@ -3,6 +3,11 @@
 #map {
     height: 100%;
 }
+
+#mainMapContainer {
+    display: flex;
+    justify-content: center;
+}
 /* Optional: Makes the sample page fill the window. */
 html,
 body {
