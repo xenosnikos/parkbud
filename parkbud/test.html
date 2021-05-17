@@ -1,0 +1,367 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 300;
+        }
+        
+        .tabs {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        #tab-button {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        #tab-button li {
+            display: table-cell;
+            width: 20%;
+        }
+        
+        #tab-button li a {
+            display: block;
+            padding: .5em;
+            background: #eee;
+            border: 1px solid #ddd;
+            text-align: center;
+            color: #000;
+            text-decoration: none;
+        }
+        
+        #tab-button li:not(:first-child) a {
+            border-left: none;
+        }
+        
+        #tab-button li a:hover,
+        #tab-button .is-active a {
+            border-bottom-color: transparent;
+            background: #fff;
+        }
+        
+        .tab-contents {
+            padding: .5em 2em 1em;
+            border: 1px solid #ddd;
+        }
+        
+        .tab-button-outer {
+            display: none;
+        }
+        
+        .tab-contents {
+            margin-top: 20px;
+        }
+        
+        @media screen and (min-width: 768px) {
+            .tab-button-outer {
+                position: relative;
+                z-index: 2;
+                display: block;
+            }
+            .tab-select-outer {
+                display: none;
+            }
+            .tab-contents {
+                position: relative;
+                top: -1px;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!------ Include the above in your HEAD tag ---------->
+
+    <br /><br />
+    <div class="tabs">
+        <div class="tab-button-outer">
+            <ul id="tab-button">
+                <li><a href="#tab01">Even</a></li>
+                <li><a href="#tab02">Odd</a></li>
+
+            </ul>
+        </div>
+        <div class="tab-select-outer">
+            <select id="tab-select">
+                <option value="#tab01">Even</option>
+                <option value="#tab02">Odd</option>
+
+            </select>
+        </div>
+        <!-- Display Street Name from Map Search -->
+        <form>
+            <div class="form-group row text-center">
+                <label for="exampleInputEmail1">Street Name</label>
+                <input type="email" class="form-control" id="streetname" aria-describedby="streetname" placeholder="street name">
+
+            </div>
+            <!-- Select Time Period For Applicable parking rules -->
+            <div class="form-group row text-center">
+                <label for="exampleInputEmail1">Period start</label>
+                <input type="date" class="form-control" id="dateStart">
+
+            </div>
+            <div class="form-group row text-center">
+                <label for="exampleInputEmail1">Period End</label>
+                <input type="date" class="form-control" id="dateEnd">
+
+            </div>
+        </form>
+        <div id="tab01" class="tab-contents">
+            <h2>Even</h2>
+            <div class="col-4">
+
+                <form>
+
+
+                    <!-- Set Parking restriction times per Day -->
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" name="monday" class="form-check-input col" id="monCheck">
+                            <label class="form-check-label col-3" for="exampleCheck1">Monday</label>
+
+                            <div class="col">
+                                start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Tuesday</label>
+                            <div class="col">
+                                start<input class="timeInput" id="tuesdayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="tuesdayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Wednesday</label>
+                            <div class="col">
+                                start<input class="timeInput" id="wednesdayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="wednesdayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Thursday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Friday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Saturday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Sunday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div id="tab02" class="tab-contents">
+            <h2>Odd</h2>
+            <div class="col-4">
+
+                <form>
+
+
+                    <!-- Set Parking restriction times per Day -->
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" name="monday" class="form-check-input col" id="monCheck">
+                            <label class="form-check-label col-3" for="exampleCheck1">Monday</label>
+
+                            <div class="col">
+                                start<input class="timeInput" id="mondayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="mondayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Tuesday</label>
+                            <div class="col">
+                                start<input class="timeInput" id="tuesdayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="tuesdayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Wednesday</label>
+                            <div class="col">
+                                start<input class="timeInput" id="wednesdayStart" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" id="wednesdayEnd" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Thursday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Friday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Saturday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-check container-fluid daySlot">
+                        <div class="">
+
+                            <input type="checkbox" class="form-check-input col" id="exampleCheck1">
+                            <label class="form-check-label col-3" for="exampleCheck1">Sunday</label>
+                            <div class="col">
+                                start<input class="timeInput" type="time" ng-model="test" mdp-time-picker /><br> end
+                                <input class="timeInput" type="time" ng-model="test" mdp-time-picker />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $(function() {
+            var $tabButtonItem = $('#tab-button li'),
+                $tabSelect = $('#tab-select'),
+                $tabContents = $('.tab-contents'),
+                activeClass = 'is-active';
+
+            $tabButtonItem.first().addClass(activeClass);
+            $tabContents.not(':first').hide();
+
+            $tabButtonItem.find('a').on('click', function(e) {
+                var target = $(this).attr('href');
+
+                $tabButtonItem.removeClass(activeClass);
+                $(this).parent().addClass(activeClass);
+                $tabSelect.val(target);
+                $tabContents.hide();
+                $(target).show();
+                e.preventDefault();
+            });
+
+            $tabSelect.on('change', function() {
+                var target = $(this).val(),
+                    targetSelectNum = $(this).prop('selectedIndex');
+
+                $tabButtonItem.removeClass(activeClass);
+                $tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+                $tabContents.hide();
+                $(target).show();
+            });
+        });
+    </script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+
+</html>
