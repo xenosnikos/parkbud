@@ -184,3 +184,16 @@ Ali
 
 3. Need assistance / figure things out
 -	TBD
+
+
+Nick 
+1. Done / not done since last scrum:
+-	Added Fields to AddRule
+
+
+2. To do until next Scrum:
+-	Clean up Page
+-	add tabs for even/odd
+
+3. Need assistance / figure things out
+-	Removing year from date picker 
