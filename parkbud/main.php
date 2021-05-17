@@ -15,8 +15,7 @@ $app = new \Slim\App($config);
 $loader = new FilesystemLoader(__DIR__ . '/templates');
 $twig = new Environment($loader);
 
-$app->get("/main", function ($request, $response, $args) {
+$app->get("/", function ($request, $response, $args) {
     global $twig;
     return $response->write($twig->render('main.html.twig', ['title' => 'Parkbud']));
 });
-
