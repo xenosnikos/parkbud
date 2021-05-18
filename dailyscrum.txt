@@ -233,3 +233,15 @@ Nick
 
 3. Need assistance / figure things out
 -	TBD
+
+Philip
+1.Done / not done since last scrum:
+-Got the Geocoding API key for using coordinates (long/lat) from address
+-Fixed the main page issue with teacher in group
+
+2.To do until next Scrum:
+- Implement the GeoCoding
+
+3.Need assistance / figure things out
+
+-Working with the geocode API/How to use it
