@@ -22,18 +22,18 @@ use Twig\Loader\FilesystemLoader;
 
 
 
-$app->get("/addrule", function ($request, $response, $args) use ($log){
+$app->get("/addrule", function ($request, $response, $args) use ($log) {
 
-    $ruleLongitude = ;
-    $ruleLatitute = ;
+    $ruleLongitude;
+    $ruleLatitute;
     $streetName = $request->getParam('streetname');
     $startDate = $request->getParam('startDate');
     $endDate = $request->getParam('endDate');
     //$parkMeter = $request->getParam('endDate');
-    $ruleSide = ;
-    $ruleDay = ;
-    $ruleStartTime =;
-    $ruleEndTime =;
+    $ruleSide;
+    $ruleDay;
+    $ruleStartTime;
+    $ruleEndTime;
 
     $errorList = [];
 
