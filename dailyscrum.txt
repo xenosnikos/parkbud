@@ -220,3 +220,16 @@ Ali
 
 3. Need assistance / figure things out
 -	TBD
+
+Nick 
+1. Done / not done since last scrum:
+-	Completed Ui for add Rule
+
+
+2. To do until next Scrum:
+-   parse geo location for coordinates
+-   modify rule table 
+-	add form logic for add to db
+
+3. Need assistance / figure things out
+-	TBD

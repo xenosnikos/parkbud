@@ -4,6 +4,15 @@
 	<link rel="stylesheet" href=".\css\style.css"/>
 {% endblock stylesheet %}
 
+{% block title %}
+    {% if userSession %}
+        Add Rule
+    {% else %}
+        Register New User
+    {% endif %}
+
+{% endblock title %}
+
 {% block content %}
 
 	<div class="container">
