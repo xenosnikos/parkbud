@@ -34,5 +34,6 @@ $app->get("/addrule", function ($request, $response, $args) use ($log){
     */
 
     global $twig;
-    return $response->write($twig->render('addrule.html.twig', ['title' => 'Parkbud']));
+    return $this->view->render($response, 'addrule.html.twig');
+    // return $response->write($twig->render('addrule.html.twig', ['title' => 'Parkbud']));
 });
