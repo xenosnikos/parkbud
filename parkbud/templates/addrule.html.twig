@@ -2,14 +2,15 @@
 {% block stylesheet %}
 
 	<link rel="stylesheet" href=".\css\style.css"/>
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 {% endblock stylesheet %}
 
 {% block title %}
-    {% if userSession %}
-        Add Rule
-    {% else %}
-        Register New User
-    {% endif %}
+	{% if userSession %}
+		Add Rule
+	{% else %}
+		Register New User
+	{% endif %}
 
 {% endblock title %}
 
@@ -19,7 +20,10 @@
 
 		<div class="container-fluid">
 			<h3 class="logo">Add Rule</h1>
-			<div class="row">
+			<div
+				class="row">
+
+				<!-- if Session -->
 
 
 				<div
@@ -27,8 +31,8 @@
 
 					<!--   MAP LEFT COLUMN -->
 
+					<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
 
-					<input id="pac-input" class="controls" type="text" placeholder="Search Box"/>
 					<div id="mainMapContainer">
 						<div id="map" style="height:400px;width:400px;"></div>
 					</div>
@@ -48,38 +52,39 @@
 
 					<div>
 
+						<form
+							action="addrule.php" method="POST">
+							<!-- Display Street Name from Map Search -->
+							<div class="form-group row text-center">
+								<label for="exampleInputEmail1">Street Name</label>
+								<input type="email" class="form-control" id="streetname" name="streetname" value="{{ rule.streetname }}" placeholder="street name">
 
-						<!-- Display Street Name from Map Search -->
-						<div class="form-group row text-center">
-							<label for="exampleInputEmail1">Street Name</label>
-							<input type="email" class="form-control" id="streetname" aria-describedby="streetname" placeholder="street name">
+							</div>
+							<!-- Select Time Period For Applicable parking rules -->
+							<div class="form-group row text-center">
+								<label for="PeriodStart">Period start</label>
+								<input type="date" name="startDate" class="form-control" id="dateStart" value="{{ rule.startDate }}">
 
-						</div>
-						<!-- Select Time Period For Applicable parking rules -->
-						<div class="form-group row text-center">
-							<label for="PeriodStart">Period start</label>
-							<input type="date" class="form-control" id="dateStart">
+							</div>
+							<div class="form-group row text-center">
+								<label for="periodEnd">Period End</label>
+								<input type="date" name="endDate" class="form-control" id="dateEnd" value="{{ rule.endDate }}">
 
-						</div>
-						<div class="form-group row text-center">
-							<label for="periodEnd">Period End</label>
-							<input type="date" class="form-control" id="dateEnd">
-
-						</div>
-
-						<div>
-							<label for="parkingMeter">Does This Space have a parking meter?</label>
-							<div>
-								<input type="radio" id="noPm" name="drone" value="pmtrue">
-								<label for="yes">Yes</label>
 							</div>
 
 							<div>
-								<input type="radio" id="yesPm" name="drone" value="pmfalse">
-								<label for="no">No</label>
-							</div>
-						</div>
+								<label for="parkingMeter">Does This Space have a parking meter?</label>
+								<div>
+									<input type="radio" id="noPm" name="noPm" value="true">
+									<label for="yes">Yes</label>
+								</div>
 
+								<div>
+									<input type="radio" id="yesPm" name="yesPm" value="false">
+									<label for="no">No</label>
+								</div>
+							</div>
+						</form>
 
 						<!-- TABS -->
 						<div class="ruleSect">
@@ -97,11 +102,11 @@
 									<br><br>
 									<p>Please Upload picture of the Even Side Parking Sign</p>
 
-									<form action="/action_page.php">
+									<form action="/index.php">
 										<input class="btn btn-primary" type="file" id="myFile" name="filename">
 
 									</form>
-									
+
 
 									<nav class="tabBar">
 
@@ -498,6 +503,8 @@
 
 				</div>
 			</div>
+
+			<!-- Else Log in -->
 
 
 		</div>
