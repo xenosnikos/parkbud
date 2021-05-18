@@ -1,14 +1,20 @@
 {% extends "master.html.twig" %}
+{% block stylesheet %}
+
+	<link rel="stylesheet" href=".\css\style.css"/>
+{% endblock stylesheet %}
+
 {% block content %}
+
 	<div class="container">
 
 		<div class="container-fluid">
-			<h3 class="logo ">Add Rule</h1>
+			<h3 class="logo">Add Rule</h1>
 			<div class="row">
 
 
 				<div
-					class="col-6 map ">
+					class="col-xs-12   col-6 map ">
 
 					<!--   MAP LEFT COLUMN -->
 
@@ -28,7 +34,7 @@
 
 
 				<div
-					class="col-6 ">
+					class="col-xs-12 col-6 ">
 					<!--   FORM Center COLUMN -->
 
 					<div>
@@ -51,7 +57,7 @@
 							<input type="date" class="form-control" id="dateEnd">
 
 						</div>
-						<br>
+
 						<div>
 							<label for="parkingMeter">Does This Space have a parking meter?</label>
 							<div>
@@ -65,7 +71,6 @@
 							</div>
 						</div>
 
-						<br><br>
 
 						<!-- TABS -->
 						<div class="ruleSect">
@@ -87,7 +92,7 @@
 										<input class="btn btn-primary" type="file" id="myFile" name="filename">
 
 									</form>
-									<br><br>
+									
 
 									<nav class="tabBar">
 
@@ -286,7 +291,7 @@
 										<input class="btn btn-primary" type="file" id="myFile" name="filename">
 
 									</form>
-									
+
 
 									<nav class="tabBar">
 
@@ -489,6 +494,10 @@
 		</div>
 
 	</div>
-
+	{% block scripts %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+	{% endblock scripts %}
 
 {% endblock %}
