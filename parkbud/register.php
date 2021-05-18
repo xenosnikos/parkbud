@@ -11,17 +11,6 @@ use Slim\Views\Twig;
 require_once 'vendor/autoload.php';
 require_once 'init.php';
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-
-// Create and configure Slim app
-$config = ['settings' => [
-    'addContentLengthHeader' => false,
-]];
-$app = new \Slim\App($config);
-
-$loader = new FilesystemLoader(__DIR__ . '/templates');
-$twig = new Environment($loader);
 
 
 
@@ -30,8 +19,8 @@ $twig = new Environment($loader);
 //STATE 1: first display
 $app->get("/register", function ($request, $response, $args) {
     global $twig;
-    return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
-    // return $this->view->render($response, 'register.html.twig');
+    // return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
+    return $this->view->render($response, 'register.html.twig');
 });
 
 // STATE 2: receiving submission
