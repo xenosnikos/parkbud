@@ -206,3 +206,17 @@ Philip
 - Setup site hosting with group
 3.Need assistance / figure things out
 -TBD
+
+=================================================
+May 18th 2021 
+Ali
+1. Done / not done since last scrum:
+-	Added functionality of Registeration and connection to database
+-	Added register_succes.html.twig
+-	Added log
+
+2. To do until next Scrum:
+-	Working on Login page
+
+3. Need assistance / figure things out
+-	TBD
