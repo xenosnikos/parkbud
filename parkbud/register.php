@@ -23,8 +23,7 @@ $app = new \Slim\App($config);
 $loader = new FilesystemLoader(__DIR__ . '/templates');
 $twig = new Environment($loader);
 
-// generated random string
-$passwordPepper = 'vG3iNzWMwKARpChq5KDZ';
+
 
 // *** Register user ***
 
@@ -32,12 +31,8 @@ $passwordPepper = 'vG3iNzWMwKARpChq5KDZ';
 $app->get("/register", function ($request, $response, $args) {
     global $twig;
     return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
+    // return $this->view->render($response, 'register.html.twig');
 });
-
-// $app->get('/register', function ($request, $response, $args) {
-//    global $twig;
-//    return $this->view->render($response, 'register.html.twig');
-// });
 
 // STATE 2: receiving submission
 $app->post('/register', function ($request, $response, $args) use ($log) {
@@ -145,8 +140,7 @@ $app->post('/register', function ($request, $response, $args) use ($log) {
             'postalCode' => strtoupper($postCode)
         ]);
         $_SESSION['user'] = DB::queryFirstRow("SELECT * FROM user WHERE email = %s",$email);
-        $log->debug(sprintf("Register new user successfully: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));
-        // setFlashMessage("Register New User Successfully");
+        $log->debug(sprintf("New user registered successfully: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));       
         global $twig;
         return $response->write($twig->render('register_success.html.twig', ['title' => 'Parkbud']));
     }
@@ -175,113 +169,5 @@ function verifyPasswordQuailty($pass1, $pass2) {
     }
     return TRUE;
 }
-/*
 
-// STATE 1: first display of the form
-$app->get('/register', function ($request, $response, $args) {
-    return $this->view->render($response, 'register.html.twig');
-});
-
-$app->post('/register', function ($request, $response, $args) use ($log) {
-
-    $firstName = $request->getParam('firstName');
-    $lastName = $request->getParam('lastName');
-    $userName = $request->getParam('userName');
-    $email = $request->getParam('email');
-    $phone = $request->getParam('phone');
-    $pass1 = $request->getParam('pass1');
-    $pass2 = $request->getParam('pass2');
-    $city = $request->getParam('city');
-    $street = $request->getParam('street');
-    $province = $request->getParam('province');
-    $postCode = $request->getParam('postCode');
-    $isAgree = $request->getParam('isAgree');
-
-    $errorList = [];
-    if (strlen($firstName) < 2 || strlen($firstName) > 50) {
-        $errorList['firstName'] = "First Name must be 2-50 characters long";
-        $firstName = '';
-    }
-    if (strlen($lastName) < 2 || strlen($lastName) > 50) {
-        $errorList['lastName'] = "Last Name must be 2-50 characters long";
-        $lastName = '';
-    }
-    if (strlen($userName) < 2 || strlen($userName) > 30) {
-        $errorList['userName'] = "User Name must be 2-30 characters long";
-        $userName = '';
-    }
-    if(!preg_match("/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/", $phone)) {
-        $errorList['phone'] = "Phone: " . $phone . " must be like ***-***-****";
-        $phone = '';
-    }
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-        $errors['email'] = "Invalid Email";
-        $email = '';
-    }
-    if (strlen($street) < 2 || strlen($street) > 100) {
-        $errorList['street'] = "Street must be 2-100 characters long";
-    }
-    if (strlen($city) < 2 || strlen($city) > 100) {
-        $errorList['city'] = "City must be 2-100 characters long";
-    }
-    if (!isset($province)) {
-        $errorList['province'] = "Province must be provided";
-    }
-    if(!preg_match("/^[A-Za-z0-9_ ]{3,4}[A-Za-z0-9]{3}$/", $postCode)) {
-        $errorList['postalCode'] = "PostalCode: " . $postCode . " must be in XXX YYY format";
-    }
-    if (strcmp($isAgree, 'on') <> 0 ) {
-        $errorList['isAgree'] = "Please agree terms before register new user";
-    }
-
-    $pass1Quality = verifyPasswordQuality($pass1);
-    $pass2Quality = verifyPasswordQuality($pass2);
-    if ($pass1Quality !== TRUE) {
-        $errorList['password1'] = $pass1Quality;
-    } elseif ( $pass2Quality !== TRUE) {
-        $errorList['password2'] = $pass2Quality;
-    }elseif ($pass1 !== $pass2) {
-        $errorList['password'] = "Passwords must be same.";
-    }
-
-    if ($errorList) {
-        $log->error(sprintf("Register failed: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));
-        return $this->view->render($response, 'register.html.twig', [
-            'errors' => $errorList,
-            'user' => [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'userName' => $userName,
-                'phone' => $phone,
-                'email' => $email,
-                'pass1' => $pass1,
-                'pass2' => $pass2,
-                'street' => $street,
-                'city' => $city,
-                'province' => $province,
-                'postalCode' => strtoupper($postCode)
-            ]
-        ]);
-    } else {
-        global $passwordPepper;
-        $pwdPeppered = hash_hmac("sha256", $pass1, $passwordPepper);
-        $pwdHashed = password_hash($pwdPeppered, PASSWORD_DEFAULT); // PASSWORD_ARGON2ID);
-        DB::insert('user', [
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'userName' => $userName,
-            'email' => $email,
-            'password' => $pwdHashed,
-            'phone' => $phone,
-            'street' => $street,
-            'city' => $city,
-            'province' => $province,
-            'postalCode' => strtoupper($postCode)
-        ]);
-        $_SESSION['user'] = DB::queryFirstRow("SELECT * FROM user WHERE email = %s",$email);
-        $log->debug(sprintf("Register new user successfully: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));
-        setFlashMessage("Register New User Successfully");
-        return $response->withRedirect("/");
-    }
-});
-*/
+// *** Login user ***

@@ -22,7 +22,7 @@
                         <p>Please update your profile and submit</p>
                     {% else %}
                         <h3>Registration</h3>
-                        <p>To register a new account, please enter information<br></p>
+                        <p>To register a new account, please enter information in the form below.<br></p>
                     {% endif %}
                 </div>
             </div>
@@ -43,7 +43,7 @@
                         <input name="lastName" type="text" class="form-control" id="inputLastname" value="{{ user.lastName }}" placeholder="Last name" required>
                     </div>
                     
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="inputEmail">Email Address</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -52,26 +52,27 @@
                             <input name="email" value="{{ user.email }}" type="email" class="form-control" id="validationServerEmail" placeholder="Email Address" aria-describedby="inputGroupPrepend3" required>
                         </div>
                     </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="Phone">Phone Number</label>
+                        <input name="phone" type="text" class="form-control" id="Phone" value="{{ user.phone }}" placeholder="ex: 555-222-9999" required>
+                    </div>
                     <div class="col-md-4 mb-3">
                         <label for="inputUsername">Username</label>
                         <input name="userName" type="text" class="form-control" id="inputUsername" value="{{ user.userName }}" placeholder="User Name" required>
                     </div>
                     <div class="col-md-4 mb-3">
-                        <label for="Phone">Phone Number</label>
-                        <input name="phone" type="text" class="form-control" id="Phone" value="{{ user.phone }}" placeholder="ex: 555-222-9999" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
                         <label for="inputPassword">Password</label>
                         <input name="pass1" type="password" class="form-control" id="inputPassword" value="{{ user.pass1 }}" placeholder="Password" required>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4 mb-3">
                         <label for="confirmPassword">Confirm Password</label>
                         <input name="pass2" type="password" class="form-control" id="confirmPassword" value="{{ user.pass2 }}" placeholder="Password" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
-                        <label for="inputAddress">Address</label>
+                        <label for="inputAddress">Address (Street number and name)</label>
                         <input name="street" type="text" class="form-control" id="inputAddress" placeholder="ex: 9032 Park Avenue" value="{{ user.street }}" required>
                     </div>
                     <div class="col-md-4 mb-3">
