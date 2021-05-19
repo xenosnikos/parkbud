@@ -131,7 +131,8 @@ $app->post('/register', function ($request, $response, $args) use ($log) {
         $_SESSION['user'] = DB::queryFirstRow("SELECT * FROM user WHERE email = %s",$email);
         $log->debug(sprintf("New user registered successfully: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));       
         global $twig;
-        return $response->write($twig->render('register_success.html.twig', ['title' => 'Parkbud']));
+        // return $response->write($twig->render('register_success.html.twig', ['title' => 'Parkbud']));
+        return $this->view->render($response, 'register_success.html.twig');
     }
 });
 
@@ -159,4 +160,67 @@ function verifyPasswordQuailty($pass1, $pass2) {
     return TRUE;
 }
 
+// used via AJAX: Email already in use
+$app->get('/isemailtaken/[{email}]', function ($request, $response, $args) {
+    $email = isset($args['email']) ? $args['email'] : "";
+    $record = DB::queryFirstRow("SELECT id FROM user WHERE email=%s", $email);
+    if ($record) {
+        return $response->write("Email already in use");
+    } else {
+        return $response->write("");
+    }
+});
+
+
 // *** Login user ***
+// STATE 1: first display
+$app->get('/login', function ($request, $response, $args) {
+    return $this->view->render($response, 'login.html.twig');
+});
+
+// STATE 2: receiving submission
+$app->post('/login', function ($request, $response, $args) use ($log) {
+    $errorList = [];
+    $emailOrUsername = $request->getParam('emailOrUsername');
+    $password = $request->getParam('password');
+    $record = DB::queryFirstRow("SELECT id, email, password, userName, role FROM user WHERE (email=%s) OR (userName=%s)", $emailOrUsername, $emailOrUsername);
+    $loginSuccess = false;
+    if ($record) {
+        global $passwordPepper;
+        $pwdPeppered = hash_hmac("sha256", $password, $passwordPepper);
+        $pwdHashed = $record['password'];
+        if (password_verify($pwdPeppered, $pwdHashed)) {
+            $loginSuccess = true;
+        } else {
+            $errorList[] = "Password is incorrect";
+        }
+    } else {
+        $errorList[] = "Username or Email Address does not exist";
+    }
+    // STATE 3: errors
+    if (!$loginSuccess) {
+        $log->debug(sprintf("Login failed for email or username: %s and password: %s from %s", $emailOrUsername, $password, $_SERVER['REMOTE_ADDR']));
+        return $this->view->render($response, 'login.html.twig', [ 'errors' => $errorList ]);
+    } else {
+        unset($record['password']); // for security reasons remove password from session
+        $_SESSION['user'] = $record; // remember user logged in
+        $log->debug(sprintf("Login successful for email or username: %s, uid=%d, from %s", $emailOrUsername, $record['id'], $_SERVER['REMOTE_ADDR']));
+        // setFlashMessage("Login Successfully");
+        if(strcmp($record['role'],'user') === 0){
+            return $response->withRedirect("/");
+        } elseif (strcmp($record['role'],'admin') === 0){
+            return $response->withRedirect("/addrule");
+        }
+    }
+});
+
+// *** User logout  ***
+$app->get('/logout', function ($request, $response, $args) use ($log) {
+    if(isset($_SESSION['user'])){
+        $log->debug(sprintf("Logout successful for uid=%d, from %s", @$_SESSION['user']['id'], $_SERVER['REMOTE_ADDR']));
+        unset($_SESSION['user']);
+        
+        // setFlashMessage("You have been logout!");
+        return $response->withRedirect("/");
+    }
+});

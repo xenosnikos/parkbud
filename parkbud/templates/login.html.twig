@@ -1,0 +1,48 @@
+{% extends "master.html.twig" %}
+
+{% block stylesheet %}<link rel="stylesheet" href="/styles/form_style.css" />{% endblock stylesheet%}
+
+{% block title %}
+    Login to Ski Rentals
+{% endblock title %}
+
+{% block content %}
+    <div class="py-5 container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="contact-info col-md-6">
+                    <img src="/images/login.png" alt="image" width="200"/>
+                    <p>To login please enter your email or username and password</p>
+                </div>
+            </div>
+            <form method="POST" class="col-md-9">
+                {% if errors %}  
+                        {% for e in errors %}
+                        <p class="form-control is-invalid text-white bg-danger">{{ e }}</p>
+                        {% endfor %} 
+                {% endif %}
+                <div class="form-group col-md-7">
+                    <label for="loginEmail">Email/User name</label>
+                    <input name="emailOrUsername" type="text" class="form-control" id="loginEmail" placeholder="Email or Username">
+                </div>
+                <div class="form-group col-md-7">
+                    <label for="loginPassword">Password</label>
+                    <input name="password" type="password" class="form-control" id="loginPassword" placeholder="Password">
+                </div>
+                <div class="col-md-6">
+                    <button type="submit " class="btn btn-primary">Log in</button>
+                </div>
+                <br>
+            </form>
+            
+            <div class="col-md-6">
+                <a class="col-md-2" href="/passreset_request">Forgot password?</a>
+                <p class="col-md-3"></p>
+                <p class="col-md-5">Not registered? <a class="" href="/register">Sign up</a></p>
+                <p class="col-md-4"></p>
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock content %}
