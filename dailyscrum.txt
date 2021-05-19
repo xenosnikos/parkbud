@@ -262,3 +262,13 @@ Ali
 3. Need assistance / figure things out
 -	TBD
 
+Philip
+1.Done / not done since last scrum:
+-Tried to get the coordinates from the map, can be done with an AJAX call
+
+2.To do until next Scrum:
+- Implement the GeoCoding/pull coordinates from map pin
+
+3.Need assistance / figure things out
+
+-Working on tying in AJAX/Google map API into database for addRule
