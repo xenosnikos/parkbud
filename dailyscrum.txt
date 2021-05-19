@@ -245,3 +245,20 @@ Philip
 3.Need assistance / figure things out
 
 -Working with the geocode API/How to use it
+
+=================================================
+May 19th 2021 
+Ali
+1. Done / not done since last scrum:
+-	Registeration page done
+-	Added Internalerror page & error handling
+-	Updated header navbar links
+-	Login page added and functional
+
+2. To do until next Scrum:
+-	Working on Admin page
+-	Working on CRUD functionality of user and admin
+
+3. Need assistance / figure things out
+-	TBD
+
