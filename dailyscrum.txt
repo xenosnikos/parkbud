@@ -272,3 +272,14 @@ Philip
 3.Need assistance / figure things out
 
 -Working on tying in AJAX/Google map API into database for addRule
+
+Nick
+1. Done / not done since last scrum:
+-	parsing values for addrule
+-   add rule to database 
+
+2. To do until next Scrum:
+-	recover coordinates/rules for search
+
+3. Need assistance / figure things out
+-	TBD
