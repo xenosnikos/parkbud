@@ -134,8 +134,9 @@ $app->post('/register', function ($request, $response, $args) use ($log) {
         ]);
         $_SESSION['user'] = DB::queryFirstRow("SELECT * FROM user WHERE email = %s",$email);
         $log->debug(sprintf("New user registered successfully: email %s, username %s, uid=%d", $email, $userName, $_SERVER['REMOTE_ADDR']));       
-        global $twig;
-        return $response->write($twig->render('register_success.html.twig', ['title' => 'Parkbud']));
+        // global $twig;
+        // return $response->write($twig->render('register_success.html.twig', ['title' => 'Parkbud']));
+        return $this->view->render($response, 'register_success.html.twig');
     }
 });
 
