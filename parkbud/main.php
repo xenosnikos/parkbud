@@ -9,3 +9,7 @@ $app->get("/", function ($request, $response, $args) {
     return $this->view->render($response, 'main.html.twig', ['title' => 'Parkbud']);
 });
 
+$app->get('/internalerror', function ($request, $response, $args) {
+    return $this->view->render($response, 'error_internal.html.twig');
+});
+

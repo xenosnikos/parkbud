@@ -12,8 +12,8 @@ use Slim\Http\Response;
 
 // create a log channel
 $log = new Logger('main');
-$log->pushHandler(new StreamHandler('logs/everything.log', Logger::DEBUG));
-$log->pushHandler(new StreamHandler('logs/errors.log', Logger::ERROR));
+$log->pushHandler(new StreamHandler(dirname(__FILE__) . '/logs/everything.log', Logger::DEBUG));
+$log->pushHandler(new StreamHandler(dirname(__FILE__) . '/logs/errors.log', Logger::ERROR));
 
 // authentication information and client's IP address in the log
 $log->pushProcessor(function ($record) {
@@ -35,6 +35,21 @@ if (strpos($_SERVER['HTTP_HOST'], "ipd24.com") !== false) {
     DB::$port = 3333;
 }
 
+// Internal Error Handler
+DB::$error_handler = 'db_error_handler'; // runs on mysql query errors
+DB::$nonsql_error_handler = 'db_error_handler'; // runs on library errors (bad syntax, etc)
+
+function db_error_handler($params) {
+    global $log;
+    // log first
+    $log->error("Database error: " . $params['error']);
+    if (isset($params['query'])) {
+        $log->error("SQL query: " . $params['query']);
+    }
+    // redirect
+    header("Location: /internalerror");
+    die;
+}
 
 // Create and configure Slim app
 $config = ['settings' => [
