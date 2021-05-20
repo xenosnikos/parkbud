@@ -298,3 +298,13 @@ Philip
 
 TBD
 
+Nick
+1.Done / not done since last scrum:
+-coordinated with team to verify addrule working
+
+2.To do until next Scrum:
+-design modal for rule retrieval
+
+3.Need assistance / figure things out
+- N\A
+
