@@ -308,3 +308,15 @@ Nick
 3.Need assistance / figure things out
 - N\A
 
+Ali
+1. Done / not done since last scrum:
+-	User can modify profile
+-	Admin can view, edit, and delete list of users
+
+2. To do until next Scrum:
+-	Admin can view, edit, and delete any parking rule
+-	Users can view, edit, and delete his/her own parking rule
+-	Flash message
+
+3. Need assistance / figure things out
+-	TBD
