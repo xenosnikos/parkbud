@@ -14,9 +14,7 @@
 			<link rel="stylesheet" href="/css/index.css">
             <link rel="stylesheet" href="/css/style.css">
 			
-			{% block stylesheet %}
-            
-            {% endblock stylesheet %}
+			{% block stylesheet %}{% endblock stylesheet %}
 		{% endblock %}
 		<title>
 			{% block title %}Parkbud{% endblock %}
@@ -41,7 +39,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">
+								<a class="nav-link" href="/">
 									<i class="fa fa-university" aria-hidden="true"></i>
 									<span class="badge badge-danger"></span>
 									About us
@@ -65,13 +63,21 @@
 							</li>
 							{% if userSession.role == 'admin' %}
 								<li class="nav-item">
-									<a class="nav-link" href="/">
-										<i class="fa fa-pencil">
-											<span class="badge badge-danger"></span>
-										</i>
-										Admin
-									</a>
-								</li>
+                                    <a class="nav-link" href="/admin/users/list">
+                                        <i class="fa fa-id-card" aria-hidden="true"></i>
+                                        <span class="badge badge-danger"></span>
+                                        </i>
+                                        Manage users
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/rules/list">
+                                        <i class="fas fa-map-marker-alt">
+                                            <span class="badge badge-danger"></span>
+                                        </i>
+                                        Manage parking rules
+                                    </a>
+                                </li>
 							{% endif %}
 						</ul>
 						<form class="form-inline my-2 my-lg-0">
@@ -91,7 +97,6 @@
 									<li class="nav-item">
 										<a class="nav-link" href="/logout">
 											<i class="fa fa-sign-out" aria-hidden="true"></i>
-											
 											<i class="fas fa-sign-in-alt"></i>
 											Sign Out
 										</a>

@@ -1,0 +1,46 @@
+{% extends "admin/master_admin.html.twig" %}
+
+{% block title %}Users List{% endblock %}
+
+{% block content %}
+    <div>
+        <h3>List of users</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover overflow-auto">
+            <thead class="thead-dark">
+                <tr class="table-primary">
+                    <th scope="col">ID</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Registered at</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in usersList %}
+                    <tr>
+                        <th scope="row">{{ u.id }}</th>
+                        <td>{{ u.role }}</td>
+                        <td>{{ u.firstName }}</td>
+                        <td>{{ u.lastName }}</td>
+                        <td>{{ u.userName }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>{{ u.phone }}</td>
+                        <td>{{ u.street ~ ' , ' ~ u.city ~ ' , ' ~ u.province ~ ' , ' ~ u.postalCode}}</td>
+                        <td>{{ u.registerTS|date("Y-m-d") }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/admin/users/edit/{{ u.id }}">edit</a>
+                            <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/admin/users/delete/{{ u.id }}">delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

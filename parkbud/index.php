@@ -14,5 +14,7 @@ require_once 'register.php';
 
 require_once 'addrule.php';
 
+require_once "admin.php";
+
 // Run app
 $app->run();
