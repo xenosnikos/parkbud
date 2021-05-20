@@ -15,6 +15,13 @@ $app->get("/addrule", function ($request, $response, $args) {
     return $this->view->render($response, 'addrule.html.twig');
 });
 
+// Fetch DI Container
+$container = $app->getContainer();
+
+// File upload directory
+$container['upload_directory'] = __DIR__ . '/uploads';
+
+
 // STATE 2&3: receiving submission
 $app->post("/addrule", function ($request, $response, $args) use ($log){
     if (!isset($_SESSION['user'])) { // refuse if user not logged in
@@ -142,9 +149,9 @@ function verifyUploadedPhoto(Psr\Http\Message\UploadedFileInterface $photo, &$mi
     }
     // echo "\n\nimage info\n";
     // print_r($info);
-    if ($info[0] < 200 || $info[0] > 1000 || $info[1] < 200 || $info[1] > 1000) {
-        return "Width and height must be within 200-1000 pixels range";
-    }
+    // if ($info[0] < 200 || $info[0] > 1000 || $info[1] < 200 || $info[1] > 1000) {
+    //    return "Width and height must be within 200-1000 pixels range";
+    // }
     $ext = "";
     switch ($info['mime']) {
         case 'image/jpeg': $ext = "jpg"; break;
@@ -157,4 +164,24 @@ function verifyUploadedPhoto(Psr\Http\Message\UploadedFileInterface $photo, &$mi
         $mime = $info['mime'];
     }
     return TRUE;
+}
+
+use Slim\Http\UploadedFile;
+
+// FIXME: this function should be allowed to fail, on moveTo or invalid extension
+function moveUploadedFile($directory, UploadedFile $uploadedFile) {
+    // Avoid a serious security flaw - user must not be ablet o upload .php file and exploit our server
+    $extension = strtolower(pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION));
+    if (!in_array($extension, ['jpg', 'jpeg', 'gif', 'png'])) {
+        return FALSE;
+    }
+    $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+    $filename = sprintf('%s.%0.8s', $basename, $extension);
+    try {
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename); // FIXME catch exception on failure
+    } catch (Exception $e) {
+        // TODO: log the error message
+        return FALSE;
+    }
+    return $filename;
 }
