@@ -39,7 +39,8 @@ if (strpos($_SERVER['HTTP_HOST'], "ipd24.com") !== false) {
 DB::$error_handler = 'db_error_handler'; // runs on mysql query errors
 DB::$nonsql_error_handler = 'db_error_handler'; // runs on library errors (bad syntax, etc)
 
-function db_error_handler($params) {
+function db_error_handler($params)
+{
     global $log;
     // log first
     $log->error("Database error: " . $params['error']);
@@ -75,4 +76,3 @@ $container['view'] = function ($c) {
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     return $view;
 };
-
