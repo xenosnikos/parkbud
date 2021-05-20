@@ -1,7 +1,7 @@
 {% extends "master.html.twig" %}
 {% block stylesheet %}
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
+	<link rel="stylesheet" href="./css/style.css">
 {% endblock stylesheet %}
 
 {% block title %}
@@ -33,7 +33,7 @@
 				<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
 
 				<div id="mainMapContainer">
-					<div id="map" style="height:800px;width:500px;"></div>
+					<div class="map" style="height:800px;width:500px;" id="map"></div>
 				</div>
 
 
@@ -44,10 +44,10 @@
 				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
 
 			</div>
-
+			<div class="col-2"></div>
 
 			<div
-				class="col-sm">
+				class="col-sm ">
 				<!--   FORM Center COLUMN -->
 
 				<div>
@@ -92,7 +92,7 @@
 								<br>
 
 								<!-- TABS -->
-								<div class="ruleSect">
+								<div class="ruleSect form-group">
 									<nav class="tabBar">
 										<ul class="nav nav-tabs" id="side-tabs" role="tab">
 											<li class="nav-item nav-link active">

@@ -8,15 +8,16 @@
     font-family: "Bebas Neue", cursive;
 }
 
-.timeInput {
-    margin-left: 20px;
-    margin: 10px;
-}
-
 .daySlot {
     margin: 10px;
 }
 
 .hidden {
     visibility: hidden;
+}
+
+@media only screen and (max-width: 479px) {
+    .stretched {
+        width: 100%;
+    }
 }
