@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+                integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+            <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+            <link rel="stylesheet" href="/css/index.css">
+            <link rel="stylesheet" href="/css/style.css">
+
+            {% block stylesheet %}{% endblock stylesheet%}
+        {% endblock %}
+        <title>{% block title %}{% endblock %}Parkbud Admin Page</title>
+    </head>
+
+    <body>
+        <div>
+            {% block nav %}
+                <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="/">Parkbud</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="/">
+                                    <i class="fa fa-home"></i>
+                                    Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+								<a class="nav-link" href="/addrule">
+									<i class="fas fa-map-marker-alt">
+										<span class="badge badge-danger"></span>
+									</i>
+									Add parking rule
+								</a>
+							</li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/users/list">
+                                    <i class="fa fa-id-card" aria-hidden="true"></i>
+                                    <span class="badge badge-danger"></span>
+                                    </i>
+                                        Manage users
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/rules/list">
+                                    <i class="fas fa-map-marker-alt">
+                                        <span class="badge badge-danger"></span>
+                                    </i>
+                                    Manage parking rules
+                                </a>
+                            </li>     
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        <ul class="navbar-nav ">
+                            {# {% block header %} #}
+                            <div class="d-flex ">
+                                {% if userSession %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/account">
+                                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                            Update profile
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/logout">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                            </i>
+                                            Sign Out
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/register">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            </i>
+                                            Register
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/login">
+                                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                                            </i>
+                                            Login
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </div>
+                            {# {% endblock header %} #}
+                        </ul>
+                    </div>
+                </nav>
+            {% endblock nav %}
+        </div>
+
+    <div>
+        {% if userSession %}
+            <p class="py-2 px-4 text-primary float-sm-right">You are logged in as <b>{{ userSession.userName }}</b></p>
+        {% endif %}
+        {% if flashMessage %}
+            <div id="flashMessage" class="alert alert-info">
+                {{flashMessage}}
+            </div>
+        {% endif %}
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+
+    
+    </div>
+    {% block scripts %}{% endblock scripts %}
+    </body>
+
+</html>
