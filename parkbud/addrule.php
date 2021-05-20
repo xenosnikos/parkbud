@@ -1,21 +1,12 @@
 <?php
-
-
-
-
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 require_once 'vendor/autoload.php';
 require_once 'init.php';
 
-
-
-
-
-
-$loader = new FilesystemLoader(__DIR__ . '/templates');
-$twig = new Environment($loader);
+// $loader = new FilesystemLoader(__DIR__ . '/templates');
+// $twig = new Environment($loader);
 
 // STATE 1: first display
 $app->get("/addrule", function ($request, $response, $args) {

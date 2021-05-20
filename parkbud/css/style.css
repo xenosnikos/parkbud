@@ -1,6 +1,7 @@
 .ruleSect {
     border: solid 1px #495057;
     text-align: center;
+    width: inherit;
 }
 
 .logo {
