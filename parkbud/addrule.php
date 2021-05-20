@@ -16,14 +16,21 @@ require_once 'init.php';
 
 $loader = new FilesystemLoader(__DIR__ . '/templates');
 $twig = new Environment($loader);
+
+// STATE 1: first display
 $app->get("/addrule", function ($request, $response, $args) {
     global $twig;
     // return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
     return $this->view->render($response, 'addrule.html.twig');
 });
 
+// STATE 2&3: receiving submission
 $app->post("/addrule", function ($request, $response, $args) use ($log){
-    
+    if (!isset($_SESSION['user'])) { // refuse if user not logged in
+        $response = $response->withStatus(403);
+        return $this->view->render($response, 'error_access_denied.html.twig');
+    }
+
     $streetName = $request->getParam('streetName');
     $periodStart = $request->getParam('periodStart');
     $periodEnd = $request->getParam('periodEnd');
@@ -46,32 +53,117 @@ $app->post("/addrule", function ($request, $response, $args) use ($log){
     $longitude = $request->getParam('longitude');
     $latitude = $request->getParam('latitude');
     $errorList = [];
+
+    // verify image
+    $hasPhoto = false;
+    $uploadedImage = $request->getUploadedFiles()['image'];
+    if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
+        // print_r($uploadedImage->getError());
+        $hasPhoto = true;
+        $result = verifyUploadedPhoto($uploadedImage);
+        if ($result !== TRUE) {
+            $errorList[] = $result;
+        } 
+    }
     
-    DB::insert('addrule', [
-        'streetName' => $streetName,
-        'periodStart' => $periodStart,
-        'periodEnd' => $periodEnd,
-        'parkingMeter' => $parkingMeter,
-        'sideFlag' => $sideFlag,
-        'mondayStart' => $mondayStart,
-        'mondayEnd' => $mondayEnd,
-        'tuesdayStart' => $tuesdayStart,
-        'tuesdayEnd' => $tuesdayEnd,
-        'wednesdayStart' => $wednesdayStart,
-        'wednesdayEnd' => $wednesdayEnd,
-        'thursdayStart' => $thursdayStart,
-        'thursdayEnd' => $thursdayEnd,
-        'fridayStart' => $fridayStart,
-        'fridayEnd' => $fridayEnd,
-        'saturdayStart' => $saturdayStart,
-        'saturdayEnd' => $saturdayEnd,
-        'sundayStart' => $sundayStart,
-        'sundayEnd' => $sundayEnd,
-        'longitude' => $longitude,
-        'latitude' => $latitude,
-    ]);
+
+    if ($errorList) {
+        return $this->view->render($response, 'addrule.html.twig',
+            [ 
+                'errorList' => $errorList, 
+                'v' => 
+                [ 
+                    'streetName' => $streetName,
+                    'periodStart' => $periodStart,
+                    'periodEnd' => $periodEnd,
+                    'parkingMeter' => $parkingMeter,
+                    'sideFlag' => $sideFlag,
+                    'mondayStart' => $mondayStart,
+                    'mondayEnd' => $mondayEnd,
+                    'tuesdayStart' => $tuesdayStart,
+                    'tuesdayEnd' => $tuesdayEnd,
+                    'wednesdayStart' => $wednesdayStart,
+                    'wednesdayEnd' => $wednesdayEnd,
+                    'thursdayStart' => $thursdayStart,
+                    'thursdayEnd' => $thursdayEnd,
+                    'fridayStart' => $fridayStart,
+                    'fridayEnd' => $fridayEnd,
+                    'saturdayStart' => $saturdayStart,
+                    'saturdayEnd' => $saturdayEnd,
+                    'sundayStart' => $sundayStart,
+                    'sundayEnd' => $sundayEnd,
+                    'longitude' => $longitude,
+                    'latitude' => $latitude,
+                ]  
+            ]);
+    } else {
+        if ($hasPhoto) {
+            $directory = $this->get('upload_directory');
+            $uploadedImagePath = moveUploadedFile($directory, $uploadedImage);
+            if ($uploadedImagePath == FALSE) {
+                return $response->withRedirect("/internalerror", 301);
+            }
+        }
+        $userId = $_SESSION['user']['id'];
+    
+        DB::insert('addrule', [
+            'userId'=> $userId,
+            'streetName' => $streetName,
+            'periodStart' => $periodStart,
+            'periodEnd' => $periodEnd,
+            'parkingMeter' => $parkingMeter,
+            'sideFlag' => $sideFlag,
+            'mondayStart' => $mondayStart,
+            'mondayEnd' => $mondayEnd,
+            'tuesdayStart' => $tuesdayStart,
+            'tuesdayEnd' => $tuesdayEnd,
+            'wednesdayStart' => $wednesdayStart,
+            'wednesdayEnd' => $wednesdayEnd,
+            'thursdayStart' => $thursdayStart,
+            'thursdayEnd' => $thursdayEnd,
+            'fridayStart' => $fridayStart,
+            'fridayEnd' => $fridayEnd,
+            'saturdayStart' => $saturdayStart,
+            'saturdayEnd' => $saturdayEnd,
+            'sundayStart' => $sundayStart,
+            'sundayEnd' => $sundayEnd,
+            'longitude' => $longitude,
+            'latitude' => $latitude,
+            'image' => $uploadedImagePath
+        ]);
 
     global $twig;
-    return $this->view->render($response, 'addrule.html.twig');
+    return $this->view->render($response, 'addrule_success.html.twig');
     // return $response->write($twig->render('addrule.html.twig', ['title' => 'Parkbud']));
+    }
 });
+
+function verifyUploadedPhoto(Psr\Http\Message\UploadedFileInterface $photo, &$mime = null) {
+    if ($photo->getError() != 0) {
+        return "Error uploading photo " . $photo->getError();
+    } 
+    if ($photo->getSize() > 1024*1024) { // 1MiB
+        return "File too big. 1MB max is allowed.";
+    }
+    $info = getimagesize($photo->file);
+    if (!$info) {
+        return "File is not an image";
+    }
+    // echo "\n\nimage info\n";
+    // print_r($info);
+    if ($info[0] < 200 || $info[0] > 1000 || $info[1] < 200 || $info[1] > 1000) {
+        return "Width and height must be within 200-1000 pixels range";
+    }
+    $ext = "";
+    switch ($info['mime']) {
+        case 'image/jpeg': $ext = "jpg"; break;
+        case 'image/gif': $ext = "gif"; break;
+        case 'image/png': $ext = "png"; break;
+        default:
+            return "Only JPG, GIF and PNG file types are allowed";
+    } 
+    if (!is_null($mime)) {
+        $mime = $info['mime'];
+    }
+    return TRUE;
+}
