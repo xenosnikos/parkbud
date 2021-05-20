@@ -283,3 +283,18 @@ Nick
 
 3. Need assistance / figure things out
 -	TBD
+
+=================================================
+May 20th 2021 
+
+Philip
+1.Done / not done since last scrum:
+-Continued work on addrule to grab coordinates from pin
+
+2.To do until next Scrum:
+- Implement and get the addrule working
+
+3.Need assistance / figure things out
+
+TBD
+
