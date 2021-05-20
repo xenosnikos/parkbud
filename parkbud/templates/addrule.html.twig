@@ -1,8 +1,7 @@
 {% extends "master.html.twig" %}
 {% block stylesheet %}
-
-	<link rel="stylesheet" href=".\css\style.css"/>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
 {% endblock stylesheet %}
 
 {% block title %}
@@ -42,7 +41,8 @@
 
 					<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 					<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete" async></script>
+					<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
+				
 				</div>
 
 
@@ -52,452 +52,232 @@
 
 					<div>
 
-						<form
-							action="addrule.php" method="POST">
+						<form method="POST">
 							<!-- Display Street Name from Map Search -->
+							<input name="sideFlag" id="sideFlag" type="hidden" />
+							<input name="longitude" id="longitude" type="hidden" />
+							<input name="latitude" id="latitude" type="hidden" />
 							<div class="form-group row text-center">
 								<label for="streetname">Street Name</label>
-								<input type="email" class="form-control" id="streetname" name="streetname" value="{{ rule.streetname }}" placeholder="street name">
+								<input type="text" class="form-control" id="streetname" name="streetName" value="" placeholder="street name">
 
 							</div>
 							<!-- Select Time Period For Applicable parking rules -->
 							<div class="form-group row text-center">
 								<label for="dateStart">Period start</label>
-								<input type="date" name="startDate" class="form-control" id="dateStart" value="{{ rule.startDate }}">
+								<input type="date" name="periodStart" class="form-control" id="dateStart" value="">
 
 							</div>
 							<div class="form-group row text-center">
 								<label for="dateEnd">Period End</label>
-								<input type="date" name="endDate" class="form-control" id="dateEnd" value="{{ rule.endDate }}">
+								<input type="date" name="periodEnd" class="form-control" id="dateEnd" value="">
 
 							</div>
 
-							<div>
+							<div class="from-group row">
 								<label for="parkingMeter">Does This Space have a parking meter?</label>
 								<div>
-									<input type="radio" id="noPm" name="noPm" value="true">
-									<label for="yes">Yes</label>
-								</div>
-
+									<div class = "form-check">
+										<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="true" checked>
+										<label class="form-check-label" for="yes">Yes</label>
+									</div>
+	
+									<div class = "form-check">
+										<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="false">
+										<label class="form-check-label" for="no">No</label>
+									</div>
 								<div>
-									<input type="radio" id="yesPm" name="yesPm" value="false">
-									<label for="no">No</label>
+							</div>	
+					
+
+							<!-- TABS -->
+							<div class="ruleSect">
+								<nav class="tabBar">
+									<ul class="nav nav-tabs" id="side-tabs" role="tab">
+										<li class="nav-item nav-link active"><a onclick="sideRole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a></li>
+										<li class="nav-item nav-link"><a onclick="sideRole(1);" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a></li>
+	
+									</ul>
+								</nav>
+	
+								<div class="tab-content">
+	
+									<div class="tab-pane active" id="a" role="tablist">
+										<br><br>
+										<p>Please Upload picture of the Even Side Parking Sign</p>
+	
+											<input class="btn btn-primary" type="file" id="myFile" name="filename">
+	
+	
+										<nav class="tabBar">
+	
+											<ul class="nav nav-tabs" id="nav-tab" role="tablist">
+	
+												<li class="nav-item nav-link active"><a data-toggle="tab" href="#mon" role="tab" aria-selected="true">Mon</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#tue" role="tab" aria-selected="false">Tue</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#wed" role="tab" aria-selected="false">Wed</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#thu" role="tab" aria-selected="false">Thu</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#fri" role="tab" aria-selected="false">Fri</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#sat" role="tab" aria-selected="false">Sat</a></li>
+												<li class="nav-item nav-link"><a data-toggle="tab" href="#sun" role="tab" aria-selected="false">Sun</a></li>
+	
+	
+											</ul>
+										</nav>
+	
+	
+										<div class="tab-content">
+	
+											<div class="tab-pane active" id="mon">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Monday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="mondayStart" id="mondayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="mondayEnd" id="mondayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+	
+											</div>
+	
+											<div class="tab-pane" id="tue">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Tueday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="tuesdayStart" id="tuesdayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="tuesdayEnd" id="tuesdayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+	
+											</div>
+											<div class="tab-pane" id="wed">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Wednesday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="wednesdayStart" id="wednesdayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="wednesdayEnd" id="wednesdayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+											</div>
+											<div class="tab-pane" id="thu">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Thursday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="thursdayStart" id="thursdayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="thursdayEnd" id="thursdayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+	
+											</div>
+											<div class="tab-pane" id="fri">
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Friday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="fridayStart" id="fridayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="fridayEnd" id="fridayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+	
+											</div>
+											<div class="tab-pane" id="sat">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Saturday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="saturdayStart" id="saturdayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="saturdayEnd" id="saturdayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+											</div>
+											<div class="tab-pane" id="sun">
+	
+	
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Even Side Sunday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+	
+	
+															<div class="col">
+																start<input class="timeInput" name="sundayStart" id="sundayStart" type="time"  mdp-time-picker/><br>
+																end
+																<input class="timeInput" name="sundayEnd" id="sundayEnd" type="time"  mdp-time-picker/>
+															</div>
+	
+														</div>
+													</div>
+	
+	
+											</div>
+	
+	
+										</div>
+	
+	
+									</div>
+	
 								</div>
+	
 							</div>
+							
+							<input type="submit" class="btn btn-primary form-control" />
 						</form>
-
-						<!-- TABS -->
-						<div class="ruleSect">
-							<nav class="tabBar">
-								<div class="nav nav-tabs" id="side-tabs" role="tab">
-									<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
-									<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
-
-								</div>
-							</nav>
-
-							<div class="tab-content">
-
-								<div class="tab-pane active" id="a" role="tablist">
-									<br><br>
-									<p>Please Upload picture of the Even Side Parking Sign</p>
-
-									<form action="/index.php">
-										<input class="btn btn-primary" type="file" id="myFile" name="filename">
-
-									</form>
-
-
-									<nav class="tabBar">
-
-										<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-											<a class="nav-item nav-link active" data-toggle="tab" href="#mon" role="tab" aria-selected="true">Mon</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#tue" role="tab" aria-selected="false">Tue</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#wed" role="tab" aria-selected="false">Wed</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#thu" role="tab" aria-selected="false">Thu</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#fri" role="tab" aria-selected="false">Fri</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#sat" role="tab" aria-selected="false">Sat</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#sun" role="tab" aria-selected="false">Sun</a>
-
-
-										</div>
-									</nav>
-
-
-									<div class="tab-content">
-
-										<div class="tab-pane active" id="mon">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Monday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-
-										<div class="tab-pane" id="tue">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Tueday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="wed">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Wednesday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="thu">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Thursday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="fri">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Friday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="sat">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Saturday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="sun">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Even Side Sunday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-
-
-									</div>
-
-
-								</div>
-
-
-								<div class="tab-pane" id="b" role="tablist">
-									<br><br>
-									<p>Please Upload picture of the Odd Side Parking Sign</p>
-
-									<form action="/action_page.php">
-										<input class="btn btn-primary" type="file" id="myFile" name="filename">
-
-									</form>
-
-
-									<nav class="tabBar">
-
-										<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-											<a class="nav-item nav-link active" data-toggle="tab" href="#omon" role="tab" aria-selected="true">Mon</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#otue" role="tab" aria-selected="false">Tue</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#owed" role="tab" aria-selected="false">Wed</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#othu" role="tab" aria-selected="false">Thu</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#ofri" role="tab" aria-selected="false">Fri</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#osat" role="tab" aria-selected="false">Sat</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#osun" role="tab" aria-selected="false">Sun</a>
-
-
-										</div>
-									</nav>
-
-
-									<div class="tab-content">
-
-										<div class="tab-pane active" id="omon">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Monday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-
-										<div class="tab-pane" id="otue">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Tueday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="owed">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Wednesday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time" mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="othu">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Thursday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="ofri">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Friday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="osat">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Saturday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-										<div class="tab-pane" id="osun">
-											<form>
-
-
-												<!-- Set No Parking restriction times per Day -->
-												<h3>Odd Side Sunday</h3>
-												<div class="form-check container-fluid daySlot">
-													<div class="">
-
-
-														<div class="col">
-															start<input class="timeInput" id="mondayStart" type="time"  mdp-time-picker/><br>
-															end
-															<input class="timeInput" id="mondayEnd" type="time"  mdp-time-picker/>
-														</div>
-
-													</div>
-												</div>
-
-
-												<button type="submit" class="btn btn-primary">Submit</button>
-											</form>
-										</div>
-
-
-									</div>
-
-
-								</div>
-
-							</div>
-
-						</div>
 					</div>
 
 
@@ -510,11 +290,26 @@
 		</div>
 
 	</div>
-	
+<p id = "location"></p>
 	{% block scripts %}
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+		
+		<script>
+			function sideRole(role){
+				$("#sideFlag").val(role)
+			}
+			
+			var input = document.getElementById('pac-input');
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				var place = autocomplete.getPlace();
+				$("#longitude").val(place.geometry.viewport.La.g)
+				$("#latitude").val(place.geometry.viewport.Ua.g)	
+				$("#streetname").val(place.address_components[1].short_name)	
+			});
+
+		</script>
 	{% endblock scripts %}
 
 {% endblock %}
