@@ -18,6 +18,37 @@ function initAutocomplete() {
     map.addListener("bounds_changed", () => {
         searchBox.setBounds(map.getBounds());
     });
+
+
+    //ADDRULES//
+    //Load in all saved rules as a marker from DB
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        document.getElementById("demo").innerHTML = myObj.name;
+    }
+    };
+    xmlhttp.open("GET", "main.php", true);
+    xmlhttp.send(); 
+
+    function placeMarkers(lat, lng) {
+        const myLatLng = { lat: lat, lng: lng };
+        new google.maps.Marker({
+        position: myLatLng,
+        map,
+            title: "Saved Rule (PLACEHOLDER)",
+        });
+    }
+
+    //TODO
+    //Find a way to load in an array with all of the rules, then call the method on each one
+    
+    //placeholder marker
+    placeMarkers(45.4083851,-73.9435058);
+    //ADDRULES STOP
+
+
     let markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -46,6 +77,7 @@ function initAutocomplete() {
                 anchor: new google.maps.Point(17, 34),
                 scaledSize: new google.maps.Size(25, 25),
             };
+                
             // Create a marker for each place.
             markers.push(
                 new google.maps.Marker({
@@ -55,7 +87,7 @@ function initAutocomplete() {
                     position: place.geometry.location,
                 })
             );
-
+                
             if (place.geometry.viewport) {
                 // Only geocodes have viewport.
                 bounds.union(place.geometry.viewport);
