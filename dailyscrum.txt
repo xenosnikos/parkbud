@@ -322,7 +322,7 @@ Ali
 -	TBD
 
 =================================================
-May 20th 2021 
+May 21th 2021 
 
 Ali
 1. Done / not done since last scrum:
@@ -336,3 +336,16 @@ Ali
 
 3. Need assistance / figure things out
 -	TBD
+
+Philip
+1.Done / not done since last scrum:
+-Managed to pull coordinates from DB
+-Some troubleshooting with the ipd24.ca connection
+
+2.To do until next Scrum:
+- Finish addrule/making the pins load from database rule entries
+- Host site with working login access
+
+3.Need assistance / figure things out
+
+TBD
