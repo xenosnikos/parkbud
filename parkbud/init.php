@@ -24,9 +24,9 @@ $log->pushProcessor(function ($record) {
 
 if (strpos($_SERVER['HTTP_HOST'], "ipd24.com") !== false) {
     // hosting on ipd24.com
-    DB::$dbName = 'cp5003_parkbud1';
-    DB::$user = 'cp5003_parkbud1';
-    DB::$password = 'vwKcGKnNDwIc';
+    DB::$dbName = 'cp5003_parkbud';
+    DB::$user = 'cp5003_parkbud';
+    DB::$password = 'jTc%Tw;s,N^I';
 } else { // local computer
     DB::$dbName = 'parkbud';
     DB::$user = 'parkbud';
