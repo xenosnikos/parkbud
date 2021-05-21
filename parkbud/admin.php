@@ -2,7 +2,7 @@
     
     require_once 'vendor/autoload.php';
     require_once 'init.php';
-    // require_once 'account.php';
+ 
 
     use Slim\Http\UploadedFile;
 
@@ -120,7 +120,7 @@
 
             DB::update('user', $updateUser, "id=%d", $originUser['id']);
             $log->debug(sprintf("Admin updated user account: id=%s successfully:  uid=%d", $originUser['id'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Update user account successfully");
+            // setFlashMessage("Updated user account successfully");
             return $response->withRedirect("/admin/users/list");
         }
 });
@@ -227,19 +227,30 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
                 'mondayStart' => $mondayStart,
                 'mondayEnd' => $mondayEnd,
                 'tuesdayStart' => $tuesdayStart,
-
                 'tuesdayEnd' => $tuesdayEnd,
                 'wednesdayStart' => $wednesdayStart,
                 'wednesdayEnd' => $wednesdayEnd,
                 'thursdayStart' => $thursdayStart,
                 'thursdayEnd' => $thursdayEnd,
-                'mondayStart' => $mondayStart,
-                'mondayEnd' => $mondayEnd,
-                'tuesdayStart' => $tuesdayStart,
+                'fridayStart' => $fridayStart,
+                'fridayEnd' => $fridayEnd,
+                'saturdayStart' => $saturdayStart,
+                'saturdayEnd' => $saturdayEnd,
+                'sundayStart' => $sundayStart,
+                'sundayEnd' => $sundayEnd,
+                'longitude' => $longitude,
+                'latitude' => $latitude,
+                
             ]
         ]);
     } else {
-            
+        if ($hasPhoto) {
+            $directory = $this->get('upload_directory');
+            $uploadedImagePath = moveUploadedFile($directory, $uploadedImage);
+            if ($uploadedImagePath == FALSE) {
+                return $response->withRedirect("/internalerror", 301);
+            }
+        }    
 
             $updateUser = [
                 'streetName' => $streetName,
@@ -249,13 +260,59 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
                 'sideFlag' => $sideFlag,
                 'mondayStart' => $mondayStart,
                 'mondayEnd' => $mondayEnd,
-                'tuesdayStart' => $tuesdayStart
+                'tuesdayStart' => $tuesdayStart,
+                'tuesdayEnd' => $tuesdayEnd,
+                'wednesdayStart' => $wednesdayStart,
+                'wednesdayEnd' => $wednesdayEnd,
+                'thursdayStart' => $thursdayStart,
+                'thursdayEnd' => $thursdayEnd,
+                'fridayStart' => $fridayStart,
+                'fridayEnd' => $fridayEnd,
+                'saturdayStart' => $saturdayStart,
+                'saturdayEnd' => $saturdayEnd,
+                'sundayStart' => $sundayStart,
+                'sundayEnd' => $sundayEnd,
+                'longitude' => $longitude,
+                'latitude' => $latitude,
+                'image' => $uploadedImagePath
             ];
 
-            DB::update('user', $updateUser, "id=%d", $originRule['id']);
-            $log->debug(sprintf("Admin updated user account: id=%s successfully:  uid=%d", $originRule['id'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Update user account successfully");
-            return $response->withRedirect("/admin/users/list");
+            DB::update('addrule', $updateUser, "id=%d", $originRule['id']);
+            $log->debug(sprintf("Admin updated rule: id=%s successfully:  uid=%d", $originRule['id'], $_SERVER['REMOTE_ADDR']));
+            // setFlashMessage("Updated rule successfully");
+            return $response->withRedirect("/admin/rules/list");
         }
     
+});
+
+// Admin can delete parking rules
+$app->get('/admin/rules/delete/{id:[0-9]+}', function($request, $response, $args) use($log){
+    if($args['id'] == 0){
+        $response = $response->withStatus(404);
+        return $this->view->render($response, '/error_notfound.html.twig');
+    } else {
+        $originRule = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+        if(!$originRule){
+            $response = $response->withStatus(404);
+            return $this->view->render($response, '/error_notfound.html.twig');
+        }
+        return $this->view->render($response, 'admin/rule_delete.html.twig', ['rule'=>$originRule]);
+    }
+});
+
+$app->post('/admin/rules/delete/{id:[0-9]+}', function($request, $response, $args) use($log){
+    if($args['id'] == 0){
+        $response = $response->withStatus(404);
+        return $this->view->render($response, '/error_notfound.html.twig');
+    }else{
+        $originUser = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+        if(!$originUser){
+            $response = $response->withStatus(404);
+            return $this->view->render($response, '/error_notfound.html.twig');
+        }
+        DB::delete('addrule', "id=%d", $args['id']);
+        $log->debug(sprintf("Admin deleted rule id=%d successfully, uid=%d", $args['id'], $_SERVER['REMOTE_ADDR']));
+        // setFlashMessage("Delete user Successfully");
+        return $response->withRedirect("/admin/rules/list");
+    }
 });

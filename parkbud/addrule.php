@@ -140,9 +140,9 @@ function verifyUploadedPhoto(Psr\Http\Message\UploadedFileInterface $photo, &$mi
     if ($photo->getError() != 0) {
         return "Error uploading photo " . $photo->getError();
     } 
-    if ($photo->getSize() > 1024*1024) { // 1MiB
-        return "File too big. 1MB max is allowed.";
-    }
+    //if ($photo->getSize() > 1024*1024) { // 1MiB
+    //    return "File too big. 1MB max is allowed.";
+    // }
     $info = getimagesize($photo->file);
     if (!$info) {
         return "File is not an image";

@@ -48,7 +48,7 @@
                         <td>{{ r.saturdayStart ~ ' , ' ~ r.saturdayEnd }}</td>
                         <td>{{ r.sundayStart ~ ' , ' ~ r.sundayEnd }}</td>
                         <td>{{ r.longitude ~ ' , ' ~ r.longitude }}</td>
-                        <td><img src="/uploads/{{r.image}}" height="70rem" alt="img"><br><a href="/uploads/{{r.image}}">View fullsize image</a> </td>
+                        <td><a href="/uploads/{{r.image}}"><img src="/uploads/{{r.image}}" height="70rem" alt="img"></a><br><a href="/uploads/{{r.image}}">View fullsize image</a> </td>
                         <td>{{ r.createdTS|date("Y-m-d") }}</td>
                         <td>
                             <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/admin/rules/edit/{{ r.id }}">edit</a>
