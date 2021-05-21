@@ -1,0 +1,63 @@
+{% extends "admin/master_admin.html.twig" %}
+
+{% block title %}Parking rules List{% endblock %}
+
+{% block content %}
+    <div>
+        <h3>List of parking rules</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover overflow-auto">
+            <thead class="thead-dark align-top">
+                <tr class="table-primary align-top" >
+                    <th scope="col" class="align-top">ID</th>
+                    <th scope="col" class="align-top">User ID</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Street name</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Period start</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Period End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Parking Meter</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Side Flag (even/odd)</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Monday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Tuesday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Wednesday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Thursday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Friday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Saturday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Sunday: Start-End</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Coordinates (Longitude, Latitude)</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Image</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Created date</th>
+                    <th scope="col" class="align-top" style="min-width: 140px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rulesList %}
+                    <tr>
+                        <th scope="row">{{ r.id }}</th>
+                        <td>{{ r.userid }}</td>
+                        <td>{{ r.streetName }}</td>
+                        <td>{{ r.periodStart }}</td>
+                        <td>{{ r.periodEnd }}</td>
+                        <td>{{ r.parkingMeter }}</td>
+                        <td>{{ r.sideFlag }}</td>
+                        <td>{{ r.mondayStart ~ ' , ' ~ r.mondayEnd }}</td>
+                        <td>{{ r.tuesdayStart ~ ' , ' ~ r.tuesdayEnd }}</td>
+                        <td>{{ r.wednesdayStart ~ ' , ' ~ r.wednesdayEnd  }}</td>
+                        <td>{{ r.thursdayStart ~ ' , ' ~ r.thursdayEnd }}</td>
+                        <td>{{ r.fridayStart ~ ' , ' ~ r.fridayEnd }}</td>
+                        <td>{{ r.saturdayStart ~ ' , ' ~ r.saturdayEnd }}</td>
+                        <td>{{ r.sundayStart ~ ' , ' ~ r.sundayEnd }}</td>
+                        <td>{{ r.longitude ~ ' , ' ~ r.longitude }}</td>
+                        <td><img src="/uploads/{{r.image}}" height="70rem" alt="img"><br><a href="/uploads/{{r.image}}">View fullsize image</a> </td>
+                        <td>{{ r.createdTS|date("Y-m-d") }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/admin/rules/edit/{{ r.id }}">edit</a>
+                            
+                            <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/admin/rules/delete/{{ r.id }}">delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
