@@ -33,7 +33,7 @@
 				<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
 
 				<div id="mainMapContainer">
-					<div class="map" style="height:800px;width:500px;" id="map"></div>
+					<div class="map" style="height:800px;width:100%;" id="map"></div>
 				</div>
 
 
@@ -78,14 +78,15 @@
 
 						<div class="from-group row">
 							<label for="parkingMeter">Does This Space have a parking meter?</label>
-							<div>
+							<br>
+							<div >
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="true" checked>
+									<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
 									<label class="form-check-label" for="yes">Yes</label>
 								</div>
 
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="false">
+									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="1">
 									<label class="form-check-label" for="no">No</label>
 								</div>
 								
