@@ -32,7 +32,7 @@ $app->post("/addrule", function ($request, $response, $args) use ($log){
     $streetName = $request->getParam('streetName');
     $periodStart = $request->getParam('periodStart');
     $periodEnd = $request->getParam('periodEnd');
-    $parkingMeter = $request->getParam('parkingMeter');
+    $parkingMeter = $request->getParam('pmVal');
     $sideFlag = $request->getParam('sideFlag');
     $mondayStart = $request->getParam('mondayStart');
     $mondayEnd = $request->getParam('mondayEnd');
@@ -74,7 +74,7 @@ $app->post("/addrule", function ($request, $response, $args) use ($log){
                     'streetName' => $streetName,
                     'periodStart' => $periodStart,
                     'periodEnd' => $periodEnd,
-                    'parkingMeter' => $parkingMeter,
+                    'pmVal' => $parkingMeter,                   
                     'sideFlag' => $sideFlag,
                     'mondayStart' => $mondayStart,
                     'mondayEnd' => $mondayEnd,
