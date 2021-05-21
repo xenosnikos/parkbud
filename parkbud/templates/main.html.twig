@@ -1,5 +1,7 @@
 {% extends "master.html.twig" %}
 
+{% block title %} {{title}} {% endblock title %}
+
 {% block content %}
     <h3 id="mainParkHeader">Where would you like to park today?</h3>
 
@@ -22,12 +24,32 @@
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"
       async
-    ></script>   
+    ></script>  
 
-    <!-- <script type="text/javascript">
-        var jsLat = "<?php echo $jsonLat; ?>";
-        var jsLong = "<?php echo $jsonLong; ?>";
-    </script> -->
+<script>
+  console.log("test");
+//   var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+// var mapOptions = {
+//   zoom: 4,
+//   center: myLatlng
+// }
+// var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+var marker;
+var markerLatLng;
+
+{% for rule in list %}
+	markerLatLng = new google.maps.LatLng({{rule.latitude}},{{rule.longitude}});
+	marker = new google.maps.Marker({
+		position: markerLatLng,
+		title:"{{rule.streetName}}"
+    
+	});
+  
+	// To add the marker to the map, call setMap();
+	marker.setMap(map);
+{% endfor %}
+</script>
 
 
 {% endblock %}
