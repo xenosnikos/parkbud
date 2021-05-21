@@ -6,7 +6,7 @@
 {% endblock stylesheet %}
 
 {% block title %}
-	Delete parking rule
+	Update parking rule
 {% endblock title %}
 
 {% block content %}
@@ -14,7 +14,7 @@
 	<div class="container">
 
 
-		<h3 class="logo col-sm-12 col-6">Delete parking rule</h1>
+		<h3 class="logo col-sm-12 col-6">Edit parking rule</h1>
 		<div
 			class="row">
 
@@ -53,9 +53,9 @@
 						method="POST" enctype="multipart/form-data">
 
 						<!-- Display Street Name from Map Search -->
-						<input name="sideFlag" id="sideFlag" type="hidden"/>
-						<input name="longitude" id="longitude" type="hidden"/>
-						<input name="latitude" id="latitude" type="hidden"/>
+						<input name="sideFlag" id="sideFlag" type="hidden" value="{{rule.sideFlag}}"/>
+						<input name="longitude" id="longitude" type="hidden" value="{{rule.longitude}}"/>
+						<input name="latitude" id="latitude" type="hidden" value="{{rule.latitude}}"/>
 						<div class="form-group row text-center">
 							<label for="streetname">Street Name</label>
 							<input type="text" class="form-control" id="streetname" name="streetName" value="{{ rule.streetName }}" placeholder="street name">
@@ -323,9 +323,7 @@
 
 								</div>
 
-								<p class="my-2 form-control is-invalid text-white bg-danger">Confirm delete?</p>
-                                <button class="btn btn-primary" type="submit">Delete</button>
-                                <a href="/admin/rules/list" class="my-2 mx-4 btn btn-primary " role="button" >Cancel</a>
+								<input type="submit" class="btn btn-primary form-control"/>
 								{% if errorList %}
 									<ul class="errorMessage">
 										{% for error in errorList %}
