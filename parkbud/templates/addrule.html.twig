@@ -57,6 +57,7 @@
 
 						<!-- Display Street Name from Map Search -->
 						<input name="sideFlag" id="sideFlag" type="hidden"/>
+						<input name="pmVal" id="pmVal" type="hidden"/>
 						<input name="longitude" id="longitude" type="hidden" />
 						<input name="latitude" id="latitude" type="hidden"/>
 						<div class="form-group row text-center">
@@ -81,8 +82,8 @@
 							<br>
 							<div >
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
-									<label class="form-check-label" for="yes">Yes</label>
+									<input onclick="pmRole(0);" class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
+									<label onclick="pmRole(1);"class="form-check-label" for="yes">Yes</label>
 								</div>
 
 								<div class="form-check">
@@ -97,10 +98,10 @@
 									<nav class="tabBar">
 										<ul class="nav nav-tabs" id="side-tabs" role="tab">
 											<li class="nav-item nav-link active">
-												<a onclick="sideRole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
+												<a onclick="siderole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
 											</li>
 											<li class="nav-item nav-link">
-												<a onclick="sideRole(1);" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
+												<a onclick="siderole(1);" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
 											</li>
 
 										</ul>
@@ -332,7 +333,9 @@
 					function sideRole(role) {
 $("#sideFlag").val(role)
 }
-
+	function pmRole(role) {
+$("#pmVal").val(role)
+}
 var input = document.getElementById('pac-input');
 var autocomplete = new google.maps.places.Autocomplete(input);
 google.maps.event.addListener(autocomplete, 'place_changed', function () {
