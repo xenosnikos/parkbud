@@ -349,3 +349,16 @@ Philip
 3.Need assistance / figure things out
 
 TBD
+
+Nick
+1.Done / not done since last scrum:
+-Designed modal for rule retrieval
+-cleaned up master template 
+
+2.To do until next Scrum:
+- finish responsive design for rule add/edit twig template
+- coordinate with team for pin load and rule retreival 
+
+3.Need assistance / figure things out
+
+responsiveness issue/ loop through records to load pin 

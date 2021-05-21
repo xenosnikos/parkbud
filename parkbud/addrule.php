@@ -66,7 +66,7 @@ $app->post("/addrule", function ($request, $response, $args) use ($log){
     
 
     if ($errorList) {
-        return $this->view->render($response, 'addrule.html.twig',
+        return $this->view->render($response, 'ruleadd.html.twig',
             [ 
                 'errorList' => $errorList, 
                 'v' => 

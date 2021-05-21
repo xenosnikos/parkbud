@@ -2,26 +2,23 @@
 <html>
 	<head>
 		{% block head %}
-
-			{#
-																											 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-																										 integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-																											#}
-			<link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.css">
+			
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
 			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 			<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-			<link rel="stylesheet" href="./css/index.css">
-			<link rel="stylesheet" href="./css/style.css">
+			<link rel="stylesheet" href="/css/index.css">
+			<link rel="stylesheet" href="/css/style.css">
 
-			{% block stylesheet %}{% endblock stylesheet %}
-		{% endblock %}
-		<title>
+			{% block stylesheet %}
+			{% endblock stylesheet %}
+			<title>
 			{% block title %}Parkbud
-			{% endblock %}
+			{% endblock title %}
 		</title>
 	</head>
+		{% endblock head %}
+		
 	<body>
 
 		{% block nav %}
@@ -102,7 +99,7 @@
 			</form>
 			<ul
 				class="navbar-nav ">
-				{# {% block header %} #}
+				
 				<div class="d-flex ">
 					{% if userSession %}
 						<li class="nav-item">
