@@ -6,13 +6,13 @@ require_once 'init.php';
 $app->get("/", function ($request, $response, $args) {
     global $twig;
 
-    $lat = DB::query("SELECT latitude FROM addrule");
-    $long = DB::query("SELECT longitude FROM addrule");
+    // $lat = DB::query("SELECT latitude FROM addrule");
+    // $long = DB::query("SELECT longitude FROM addrule");
 
-    $jsonLat = json_encode($lat);
-    $jsonLong = json_encode($long);
-    echo $jsonLat;
-    echo $jsonLong;
+    // $jsonLat = json_encode($lat);
+    // $jsonLong = json_encode($long);
+    // echo $jsonLat;
+    // echo $jsonLong;
 
 
 

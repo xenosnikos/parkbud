@@ -1,0 +1,369 @@
+{% extends "master.html.twig" %}
+
+{% block stylesheet %}
+	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/css/style.css">
+{% endblock stylesheet %}
+
+{% block title %}
+	Update parking rule
+{% endblock title %}
+
+{% block content %}
+
+	<div class="container">
+
+
+		<h3 class="logo col-sm-12 col-6">Edit parking rule</h1>
+		<div
+			class="row">
+
+			<!-- if Session -->
+
+
+			<div
+				class="col-sm map col-md-6">
+
+				<!--   MAP LEFT COLUMN -->
+
+				<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
+
+				<div id="mainMapContainer">
+					<div class="map" style="height:800px;width:500px;" id="map"></div>
+				</div>
+
+
+				<script src="/index.js"></script>
+
+				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
+                <p>longitude: {{ rule.longitude }} , latitude: {{ rule.latitude }}</p>
+			</div>
+            
+			<div class="col-1"></div>
+
+			<div
+				class="col-sm col-md-5">
+				<!--   FORM Center COLUMN -->
+
+				<div>
+
+					<form
+						method="POST" enctype="multipart/form-data">
+
+						<!-- Display Street Name from Map Search -->
+						<input name="sideFlag" id="sideFlag" type="hidden"/>
+						<input name="longitude" id="longitude" type="hidden"/>
+						<input name="latitude" id="latitude" type="hidden"/>
+						<div class="form-group row text-center">
+							<label for="streetname">Street Name</label>
+							<input type="text" class="form-control" id="streetname" name="streetName" value="{{ rule.streetName }}" placeholder="street name">
+
+						</div>
+						<!-- Select Time Period For Applicable parking rules -->
+						<div class="form-group row text-center">
+							<label for="dateStart">Period start</label>
+							<input type="date" name="periodStart" class="form-control" id="dateStart" value="{{ rule.periodStart }}">
+
+						</div>
+						<div class="form-group row text-center">
+							<label for="dateEnd">Period End</label>
+							<input type="date" name="periodEnd" class="form-control" id="dateEnd" value="{{ rule.periodEnd }}">
+
+						</div>
+
+						<div class="from-group row">
+							<label for="parkingMeter">Does This Space have a parking meter?</label>
+							<div>
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" 
+                                    {% if rule.parkingMeter == 1 %} checked {% endif %} >
+									<label class="form-check-label" for="yes">Yes</label>
+								</div>
+
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" 
+                                    {% if rule.parkingMeter == 0 %} checked {% endif %} >
+									<label class="form-check-label" for="no">No</label>
+								</div>
+								<div></div>
+								<br>
+
+								<!-- TABS -->
+								<div class="ruleSect form-group">
+									<nav class="tabBar">
+										<ul class="nav nav-tabs" id="side-tabs" role="tab">
+											<li class="nav-item nav-link active">
+												<a onclick="sideRole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home"
+                                                {% if rule.sideFlag == 0 %} aria-selected="true" {% endif %} >
+                                                Even</a>
+											</li>
+											<li class="nav-item nav-link">
+												<a onclick="sideRole(1);" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile"
+                                                {% if rule.sideFlag != 0 %} aria-selected="true" {% endif %} >
+                                                Odd</a>
+											</li>
+
+										</ul>
+									</nav>
+
+									<div class="tab-content">
+
+										<div class="tab-pane active" id="a" role="tablist">
+											<br><br>
+											<p>Please Upload picture of the Even Side Parking Sign</p>
+                                            
+                                            
+                                            <a href="/uploads/{{rule.image}}"><img class="img-fluid" src="/uploads/{{rule.image}}" width="200rem" alt="Current image"></a><br>
+                                            <a href="/uploads/{{rule.image}}">View fullsize current image</a>
+                                            <p></p>
+											<input class="btn btn-primary" type="file" id="myFile" name="image" 
+                                            value="/uploads/{{rule.image}}"
+                                            >
+
+
+											<nav class="tabBar">
+
+												<ul class="nav nav-tabs" id="nav-tab" role="tablist">
+
+													<li class="nav-item nav-link active">
+														<a data-toggle="tab" href="#mon" role="tab" aria-selected="true">Mon</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#tue" role="tab" aria-selected="false">Tue</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#wed" role="tab" aria-selected="false">Wed</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#thu" role="tab" aria-selected="false">Thu</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#fri" role="tab" aria-selected="false">Fri</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#sat" role="tab" aria-selected="false">Sat</a>
+													</li>
+													<li class="nav-item nav-link">
+														<a data-toggle="tab" href="#sun" role="tab" aria-selected="false">Sun</a>
+													</li>
+
+
+												</ul>
+											</nav>
+
+
+											<div class="tab-content">
+
+												<div
+													class="tab-pane active" id="mon">
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Monday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" name="mondayStart" id="mondayStart" type="time" mdp-time-picker
+                                                                {% if rule.mondayStart != 0 %} value="{{rule.mondayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="mondayEnd" id="mondayEnd" type="time" mdp-time-picker
+                                                                {% if rule.mondayEnd != 0 %} value="{{rule.mondayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+
+												</div>
+
+												<div
+													class="tab-pane" id="tue">
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Tueday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" name="tuesdayStart" id="tuesdayStart" type="time" mdp-time-picker
+                                                                {% if rule.tuesdayStart != 0 %} value="{{rule.tuesdayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="tuesdayEnd" id="tuesdayEnd" type="time" mdp-time-picker 
+                                                                {% if rule.tuesdayEnd != 0 %} value="{{rule.tuesdayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+
+												</div>
+												<div class="tab-pane" id="wed">
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Wednesday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+															<div class="col">
+																start<input class="timeInput" name="wednesdayStart" id="wednesdayStart" type="time" mdp-time-picker
+                                                                {% if rule.wednesdayStart != 0 %} value="{{rule.wednesdayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="wednesdayEnd" id="wednesdayEnd" type="time" mdp-time-picker
+                                                                {% if rule.wednesdayEnd != 0 %} value="{{rule.wednesdayEnd}}" {% endif %}
+                                                                />
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="tab-pane" id="thu">
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Thursday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+															<div class="col">
+																start<input class="timeInput" name="thursdayStart" id="thursdayStart" type="time" mdp-time-picker
+                                                                {% if rule.thursdayStart != 0 %} value="{{rule.thursdayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="thursdayEnd" id="thursdayEnd" type="time" mdp-time-picker
+                                                                {% if rule.thursdayEnd != 0 %} value="{{rule.thursdayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+
+												</div>
+												<div class="tab-pane" id="fri">
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Friday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+															<div class="col">
+																start<input class="timeInput" name="fridayStart" id="fridayStart" type="time" mdp-time-picker
+                                                                {% if rule.fridayStart != 0 %} value="{{rule.fridayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="fridayEnd" id="fridayEnd" type="time" mdp-time-picker
+                                                                {% if rule.fridayEnd != 0 %} value="{{rule.fridayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+
+												</div>
+												<div
+													class="tab-pane" id="sat">
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Saturday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+															<div class="col">
+																start<input class="timeInput" name="saturdayStart" id="saturdayStart" type="time" mdp-time-picker
+                                                                {% if rule.saturdayStart != 0 %} value="{{rule.saturdayStart}}" {% endif %}
+                                                                /><br>
+																end
+																<input class="timeInput" name="saturdayEnd" id="saturdayEnd" type="time" mdp-time-picker
+                                                                {% if rule.saturdayEnd != 0 %} value="{{rule.saturdayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+												</div>
+												<div
+													class="tab-pane" id="sun">
+
+
+													<!-- Set No Parking restriction times per Day -->
+													<h3>Sunday</h3>
+													<div class="form-check container-fluid daySlot">
+														<div class="">
+
+
+															<div class="col">
+																start<input class="timeInput" name="sundayStart" id="sundayStart" type="time" mdp-time-picker 
+                                                                {% if rule.sundayStart != 0 %} value="{{rule.sundayStart}}" {% endif %}
+                                                                 /><br>
+																end
+																<input class="timeInput" name="sundayEnd" id="sundayEnd" type="time" mdp-time-picker
+                                                                {% if rule.sundayEnd != 0 %} value="{{rule.sundayEnd}}" {% endif %}
+                                                                />
+															</div>
+
+														</div>
+													</div>
+
+
+												</div>
+
+
+											</div>
+
+
+										</div>
+
+									</div>
+
+								</div>
+
+								<p class="my-2 form-control is-invalid text-white bg-danger">Confirm delete?</p>
+                                <button class="btn btn-primary" type="submit">Delete</button>
+                                <a href="/admin/rules/list" class="my-2 mx-4 btn btn-primary " role="button" >Cancel</a>
+								{% if errorList %}
+									<ul class="errorMessage">
+										{% for error in errorList %}
+											<li>{{error}}</li>
+										{% endfor %}
+									</ul>
+								{% endif %}
+
+							</form>
+						</div>
+
+
+					</div>
+				</div>
+
+				<!-- Else Log in -->
+
+
+			</div>
+			<p id="location"></p>
+			{% block scripts %}
+
+				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+
+				<script>
+					function sideRole(role) {
+                $("#sideFlag").val(role)
+                }
+
+                var input = document.getElementById('pac-input');
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                $("#longitude").val(place.geometry.viewport.La.g)
+                $("#latitude").val(place.geometry.viewport.Ua.g)
+                $("#streetname").val(place.address_components[1].short_name)
+                });
+				</script>
+			{% endblock scripts %}
+
+{% endblock %}
