@@ -16,17 +16,12 @@
     visibility: hidden;
 }
 
-.mapput {
-    width: max-content;
-    border: 2px solid black;
-}
-
 @media only screen and (max-width: 479px) {
     .stretched {
         width: 100%;
     }
 }
 
-.addrule-form{
+.addrule-form {
     padding-bottom: 5%;
 }
