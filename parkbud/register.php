@@ -348,3 +348,193 @@ $app->post('/account', function ($request, $response, $args) use ($log) {
         return $response->withHeader("Location", "/error_internal",403);
     }
 });
+
+
+// ADMIN INTERFACE CRUD OPERATIONS HANDLING: Parking rules
+
+// User can view rules list
+$app->get('/user/rules/list', function($request, $response, $args) use($log){
+    if(isset($_SESSION['user'])) {
+        $rulesList = DB::query("SELECT * FROM addrule WHERE userid=%d",  $_SESSION['user']['id']);
+        $user = DB::queryFirstRow("SELECT * FROM user WHERE id=%d", $_SESSION['user']['id']);
+    }
+    if (isset($rulesList)) {
+        $log->debug(sprintf("Trying to edit my rules with userName %s, %s", $user['userName'], $_SERVER['REMOTE_ADDR']));
+        return $this->view->render($response, 'rules_list.html.twig',['rulesList'=>$rulesList]);
+    } else {
+        $log->error(sprintf("Internal Error: Cannot find userName %s\n:%s", $_SESSION['user']['userName'], $_SERVER['REMOTE_ADDR']));
+        return $response->withHeader("Location", "/error_internal",403);
+    }
+});
+
+
+// edit
+$app->get('/user/rules/edit/{id:[0-9]+}', function($request, $response, $args) use($log){
+    $rule = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+    if(!$rule){
+        $response = $response->withStatus(404);
+        return $this->view->render($response, '/not_found_error.html.twig');
+    }
+    return $this->view->render($response, '/rules_edit.html.twig', ['rule'=>$rule]);
+});
+
+// Admin can edit parking rules
+$app->post('/user/rules/edit/{id:[0-9]+}', function ($request, $response, $args) use ($log) {
+    $originRule = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+    $streetName = $request->getParam('streetName');
+    $periodStart = $request->getParam('periodStart');
+    $periodEnd = $request->getParam('periodEnd');
+    $parkingMeter = $request->getParam('parkingMeter');
+    $sideFlag = $request->getParam('sideFlag');
+    $mondayStart = $request->getParam('mondayStart');
+    $mondayEnd = $request->getParam('mondayEnd');
+    $tuesdayStart = $request->getParam('tuesdayStart');
+    $tuesdayEnd = $request->getParam('tuesdayEnd');
+    $wednesdayStart = $request->getParam('wednesdayStart');
+    $wednesdayEnd = $request->getParam('wednesdayEnd');
+    $thursdayStart = $request->getParam('thursdayStart');
+    $thursdayEnd = $request->getParam('thursdayEnd');
+    $fridayStart = $request->getParam('fridayStart');
+    $fridayEnd = $request->getParam('fridayEnd');
+    $saturdayStart = $request->getParam('saturdayStart');
+    $saturdayEnd = $request->getParam('saturdayEnd');
+    $sundayStart = $request->getParam('sundayStart');
+    $sundayEnd = $request->getParam('sundayEnd');
+    $longitude = $request->getParam('longitude');
+    $latitude = $request->getParam('latitude');
+    // how to preload existing image???
+    $uploadedImage = $request->getParam('image');
+    if($uploadedImage == null){
+        $hasPhoto = false;
+        $uploadedImage = $request->getUploadedFiles()['image'];
+        if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
+            // print_r($uploadedImage->getError());
+            $hasPhoto = true;
+            $result = verifyUploadedPhoto($uploadedImage);
+            if ($result !== TRUE) {
+                $errorList[] = $result;
+            } 
+        }
+    }
+    //
+
+    $errorList = [];
+
+/*
+    // verify image
+    $hasPhoto = false;
+    $uploadedImage = $request->getUploadedFiles()['image'];
+    if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
+        // print_r($uploadedImage->getError());
+        $hasPhoto = true;
+        $result = verifyUploadedPhoto($uploadedImage);
+        if ($result !== TRUE) {
+            $errorList[] = $result;
+        } 
+    }
+*/
+
+    if ($errorList) {
+        $log->error(sprintf("Edit rule failed: streetName %s, uid=%d", $streetName, $_SERVER['REMOTE_ADDR']));
+        return $this->view->render($response, 'rules_edit.html.twig', [
+            'errors' => $errorList,
+            'user' => [
+                'streetName' => $streetName,
+                'periodStart' => $periodStart,
+                'periodEnd' => $periodEnd,
+                'parkingMeter' => $parkingMeter,
+                'sideFlag' => $sideFlag,
+                'mondayStart' => $mondayStart,
+                'mondayEnd' => $mondayEnd,
+                'tuesdayStart' => $tuesdayStart,
+                'tuesdayEnd' => $tuesdayEnd,
+                'wednesdayStart' => $wednesdayStart,
+                'wednesdayEnd' => $wednesdayEnd,
+                'thursdayStart' => $thursdayStart,
+                'thursdayEnd' => $thursdayEnd,
+                'fridayStart' => $fridayStart,
+                'fridayEnd' => $fridayEnd,
+                'saturdayStart' => $saturdayStart,
+                'saturdayEnd' => $saturdayEnd,
+                'sundayStart' => $sundayStart,
+                'sundayEnd' => $sundayEnd,
+                'longitude' => $longitude,
+                'latitude' => $latitude,
+                
+            ]
+        ]);
+    } else {
+        if ($hasPhoto) {
+            $directory = $this->get('upload_directory');
+            $uploadedImagePath = moveUploadedFile($directory, $uploadedImage);
+            if ($uploadedImagePath == FALSE) {
+                return $response->withRedirect("/internalerror", 301);
+            }
+        }    
+
+            $updateUser = [
+                'streetName' => $streetName,
+                'periodStart' => $periodStart,
+                'periodEnd' => $periodEnd,
+                'parkingMeter' => $parkingMeter,
+                'sideFlag' => $sideFlag,
+                'mondayStart' => $mondayStart,
+                'mondayEnd' => $mondayEnd,
+                'tuesdayStart' => $tuesdayStart,
+                'tuesdayEnd' => $tuesdayEnd,
+                'wednesdayStart' => $wednesdayStart,
+                'wednesdayEnd' => $wednesdayEnd,
+                'thursdayStart' => $thursdayStart,
+                'thursdayEnd' => $thursdayEnd,
+                'fridayStart' => $fridayStart,
+                'fridayEnd' => $fridayEnd,
+                'saturdayStart' => $saturdayStart,
+                'saturdayEnd' => $saturdayEnd,
+                'sundayStart' => $sundayStart,
+                'sundayEnd' => $sundayEnd,
+                'longitude' => $longitude,
+                'latitude' => $latitude,
+                'image' => $uploadedImagePath
+            ];
+
+            DB::update('addrule', $updateUser, "id=%d", $originRule['id']);
+            $log->debug(sprintf("User updated rule: id=%s successfully:  uid=%d", $originRule['id'], $_SERVER['REMOTE_ADDR']));
+            // setFlashMessage("Updated rule successfully");
+            return $response->withRedirect("/user/rules/list");
+        }
+    
+});
+
+
+// User can delete his/her parking rules
+$app->get('/user/rules/delete/{id:[0-9]+}', function($request, $response, $args) use($log){
+    if($args['id'] == 0){
+        $response = $response->withStatus(404);
+        return $this->view->render($response, '/error_notfound.html.twig');
+    } else {
+        $originRule = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+        if(!$originRule){
+            $response = $response->withStatus(404);
+            return $this->view->render($response, '/error_notfound.html.twig');
+        }
+        return $this->view->render($response, 'rule_delete.html.twig', ['rule'=>$originRule]);
+    }
+});
+
+$app->post('/user/rules/delete/{id:[0-9]+}', function($request, $response, $args) use($log){
+    if($args['id'] == 0){
+        $response = $response->withStatus(404);
+        return $this->view->render($response, '/error_notfound.html.twig');
+    }else{
+        $originUser = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
+        if(!$originUser){
+            $response = $response->withStatus(404);
+            return $this->view->render($response, '/error_notfound.html.twig');
+        }
+        DB::delete('addrule', "id=%d", $args['id']);
+        $log->debug(sprintf("User deleted rule id=%d successfully, id=%d", $args['id'], $_SERVER['REMOTE_ADDR']));
+        // setFlashMessage("Delete user Successfully");
+        return $response->withRedirect("/user/rules/list");
+    }
+});
+
