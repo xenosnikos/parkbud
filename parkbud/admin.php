@@ -200,8 +200,24 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
     $sundayEnd = $request->getParam('sundayEnd');
     $longitude = $request->getParam('longitude');
     $latitude = $request->getParam('latitude');
-    $errorList = [];
+    // how to preload existing image???
+    $uploadedImage = $request->getParam('image');
+    if($uploadedImage == null){
+        $hasPhoto = false;
+        $uploadedImage = $request->getUploadedFiles()['image'];
+        if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
+            // print_r($uploadedImage->getError());
+            $hasPhoto = true;
+            $result = verifyUploadedPhoto($uploadedImage);
+            if ($result !== TRUE) {
+                $errorList[] = $result;
+            } 
+        }
+    }
+    //
 
+    $errorList = [];
+/*
     // verify image
     $hasPhoto = false;
     $uploadedImage = $request->getUploadedFiles()['image'];
@@ -213,7 +229,7 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
             $errorList[] = $result;
         } 
     }
-
+*/
     if ($errorList) {
         $log->error(sprintf("Edit rule failed: streetName %s, uid=%d", $streetName, $_SERVER['REMOTE_ADDR']));
         return $this->view->render($response, '/admin/rules_edit.html.twig', [

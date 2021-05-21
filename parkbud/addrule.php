@@ -12,7 +12,7 @@ require_once 'init.php';
 $app->get("/addrule", function ($request, $response, $args) {
     global $twig;
     // return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
-    return $this->view->render($response, 'ruleadd.html.twig');
+    return $this->view->render($response, 'addrule.html.twig');
 });
 
 // Fetch DI Container
@@ -66,7 +66,7 @@ $app->post("/addrule", function ($request, $response, $args) use ($log){
     
 
     if ($errorList) {
-        return $this->view->render($response, 'ruleadd.html.twig',
+        return $this->view->render($response, 'addrule.html.twig',
             [ 
                 'errorList' => $errorList, 
                 'v' => 
