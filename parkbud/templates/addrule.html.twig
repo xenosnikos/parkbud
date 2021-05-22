@@ -26,7 +26,7 @@
 
 
 			<div
-				class="col-sm map ">
+				class="col-sm-5 map ">
 
 				<!--   MAP LEFT COLUMN -->
 
@@ -44,10 +44,10 @@
 				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
 
 			</div>
-			
 
+			<div class="col-sm-1"></div>
 			<div
-				class="col-sm ">
+				class="col-sm-5 ">
 				<!--   FORM Center COLUMN -->
 
 				<div>
@@ -58,7 +58,7 @@
 						<!-- Display Street Name from Map Search -->
 						<input name="sideFlag" id="sideFlag" type="hidden"/>
 						<input name="pmVal" id="pmVal" type="hidden"/>
-						<input name="longitude" id="longitude" type="hidden" />
+						<input name="longitude" id="longitude" type="hidden"/>
 						<input name="latitude" id="latitude" type="hidden"/>
 						<div class="form-group row text-center">
 							<label for="streetname">Street Name</label>
@@ -80,17 +80,17 @@
 						<div class="from-group row">
 							<label for="parkingMeter">Does This Space have a parking meter?</label>
 							<br>
-							<div >
+							<div>
 								<div class="form-check">
 									<input onclick="pmRole(0);" class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
-									<label onclick="pmRole(1);"class="form-check-label" for="yes">Yes</label>
+									<label onclick="pmRole(1);" class="form-check-label" for="yes">Yes</label>
 								</div>
 
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="1">
 									<label class="form-check-label" for="no">No</label>
 								</div>
-								
+
 								<br>
 
 								<!-- TABS -->
@@ -324,16 +324,21 @@
 
 
 			</div>
-			<p id="location"></p>
-			{% block scripts %}
+			<div class="col-sm-1"></div>
+		</div>
 
-				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+	</div>
 
-				<script>
-					function sideRole(role) {
+	<p id="location"></p>
+	{% block scripts %}
+
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+
+		<script>
+			function sideRole(role) {
 $("#sideFlag").val(role)
 }
-	function pmRole(role) {
+function pmRole(role) {
 $("#pmVal").val(role)
 }
 var input = document.getElementById('pac-input');
@@ -344,7 +349,7 @@ $("#longitude").val(place.geometry.viewport.La.g)
 $("#latitude").val(place.geometry.viewport.Ua.g)
 $("#streetname").val(place.address_components[1].short_name)
 });
-				</script>
-			{% endblock scripts %}
+		</script>
+	{% endblock scripts %}
 
-		{% endblock %}
+{% endblock %}
