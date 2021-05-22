@@ -2,6 +2,20 @@
 
 {% block title %} {{title}} {% endblock title %}
 
+{% block head %}
+    <script src="/index.js"></script>
+{% endblock head %}
+
+{% block scripts %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"
+  async
+></script>  
+
+{% endblock scripts %}
+
 {% block content %}
     <h3 id="mainParkHeader">Where would you like to park today?</h3>
 
@@ -17,14 +31,6 @@
     </div>
     <p id="demo"></p>
 
-    <script src="/index.js"></script>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"
-      async
-    ></script>  
 
 <script>
   console.log("test");
@@ -38,15 +44,18 @@
 var marker;
 var markerLatLng;
 
-{% for rule in list %}
+{% for rule in rulesList %}
+  placeMarkers({{rule.latitude}},{{rule.longitude}});
+{#
 	markerLatLng = new google.maps.LatLng({{rule.latitude}},{{rule.longitude}});
 	marker = new google.maps.Marker({
 		position: markerLatLng,
-		title:"{{rule.streetName}}"    
+		title:"{{rule.streetName}}",
+    map: map
 	});
   
 	// To add the marker to the map, call setMap();
-	marker.setMap(map);
+	//marker.setMap(map); #}
 {% endfor %}
 </script>
 

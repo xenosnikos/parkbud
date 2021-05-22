@@ -32,14 +32,15 @@ function initAutocomplete() {
     // xmlhttp.open("GET", "main.php", true);
     // xmlhttp.send(); 
 
+    }
+
     function placeMarkers(lat, lng) {
         const myLatLng = { lat: lat, lng: lng };
         new google.maps.Marker({
         position: myLatLng,
         map,
             title: "Saved Rule (PLACEHOLDER)",
-        });
-    }
+    });
 
     //TODO
     //Find a way to load in an array with all of the rules, then call the method on each one

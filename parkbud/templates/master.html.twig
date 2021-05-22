@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		{% block head %}
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -17,9 +16,9 @@
 			{% block title %}Parkbud
 			{% endblock title %}
 		</title>
+		{% block head %}
+		{% endblock head %}		
 	</head>
-		{% endblock head %}
-		
 	<body>
 
 		{% block nav %}
