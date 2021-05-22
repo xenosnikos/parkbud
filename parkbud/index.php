@@ -16,5 +16,7 @@ require_once 'addrule.php';
 
 require_once "admin.php";
 
+require_once "markers.php";
+
 // Run app
 $app->run();
