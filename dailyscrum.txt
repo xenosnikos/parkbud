@@ -362,3 +362,18 @@ Nick
 3.Need assistance / figure things out
 
 responsiveness issue/ loop through records to load pin 
+
+=================================================
+May 22th 2021 
+
+Philip
+1.Done / not done since last scrum:
+-Working on finishing addrule
+-Pushed array of coordinated from backend to front, they are readable but need to be passed to marker method
+
+2.To do until next Scrum:
+-Convert the json from backend into JS object that can be used to place markers for rules
+
+3.Need assistance / figure things out
+
+TBD
