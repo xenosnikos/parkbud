@@ -362,3 +362,33 @@ Nick
 3.Need assistance / figure things out
 
 responsiveness issue/ loop through records to load pin 
+
+=================================================
+May 22th 2021 
+
+Philip
+1.Done / not done since last scrum:
+-Working on finishing addrule
+-Pushed array of coordinated from backend to front, they are readable but need to be passed to marker method
+
+2.To do until next Scrum:
+-Convert the json from backend into JS object that can be used to place markers for rules
+
+3.Need assistance / figure things out
+
+TBD
+
+
+Ali
+1. Done / not done since last scrum:
+-	Users can view, edit, and delete his/her own parking rule
+-	Collaborated in posting parking rule
+-	Fixed edit rule issue: getting existing coordinates
+
+2. To do until next Scrum:
+-	Fix edit rule issue: existing image preload, hosting loggin & register issue
+-	Users can view, edit, and delete his/her own parking rule
+-	Flash message
+
+3. Need assistance / figure things out
+-	TBD

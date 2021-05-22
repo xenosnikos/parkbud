@@ -32,14 +32,15 @@ function initAutocomplete() {
     // xmlhttp.open("GET", "main.php", true);
     // xmlhttp.send(); 
 
+    }
+
     function placeMarkers(lat, lng) {
         const myLatLng = { lat: lat, lng: lng };
         new google.maps.Marker({
         position: myLatLng,
         map,
             title: "Saved Rule (PLACEHOLDER)",
-        });
-    }
+    });
 
     //TODO
     //Find a way to load in an array with all of the rules, then call the method on each one
@@ -107,31 +108,3 @@ function initMap() {
         zoom: 8,
     });
 }
-
-
-// function initMap() {
-//     const map = new google.maps.Map(document.getElementById("map"), {
-//       zoom: 8,
-//       center: { lat: -34.397, lng: 150.644 },
-//     });
-//     const geocoder = new google.maps.Geocoder();
-//     document.getElementById("submit").addEventListener("click", () => {
-//       geocodeAddress(geocoder, map);
-//     });
-//   }
-  
-//   function geocodeAddress(geocoder, resultsMap) {
-//     const address = document.getElementById("address").value;
-//     geocoder.geocode({ address: address }, (results, status) => {
-//       if (status === "OK") {
-//         resultsMap.setCenter(results[0].geometry.location);
-//         new google.maps.Marker({
-//           map: resultsMap,
-//           position: results[0].geometry.location,
-//         });
-//       } else {
-//         alert("Geocode was not successful for the following reason: " + status);
-//       }
-//     });
-//   }
-  
