@@ -22,15 +22,15 @@ function initAutocomplete() {
 
     //ADDRULES//
     //Load in all saved rules as a marker from DB
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var myObj = JSON.parse(this.responseText);
-        document.getElementById("demo").innerHTML = myObj.name;
-    }
-    };
-    xmlhttp.open("GET", "main.php", true);
-    xmlhttp.send(); 
+    // var xmlhttp = new XMLHttpRequest();
+    // xmlhttp.onreadystatechange = function() {
+    // if (this.readyState == 4 && this.status == 200) {
+    //     var myObj = JSON.parse(this.responseText);
+    //     document.getElementById("demo").innerHTML = myObj.name;
+    // }
+    // };
+    // xmlhttp.open("GET", "main.php", true);
+    // xmlhttp.send(); 
 
     function placeMarkers(lat, lng) {
         const myLatLng = { lat: lat, lng: lng };

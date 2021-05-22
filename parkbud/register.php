@@ -538,3 +538,14 @@ $app->post('/user/rules/delete/{id:[0-9]+}', function($request, $response, $args
     }
 });
 
+// *** Any visitor/user can see contact page **
+$app->get('/contact', function ($request, $response, $args) use ($log){  
+        return $this->view->render($response, 'contact.html.twig');
+});
+
+// *** Any visitor/user can see about us page **
+$app->get('/aboutus', function ($request, $response, $args) use ($log){  
+    return $this->view->render($response, 'aboutus.html.twig');
+});
+
+
