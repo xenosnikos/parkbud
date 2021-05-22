@@ -4,135 +4,78 @@
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-function initAutocomplete() {
-    const map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 45.4064663, lng: -73.9435058 },
-        zoom: 14,
-        mapTypeId: "roadmap",
-    });
-    // Create the search box and link it to the UI element.
-    const input = document.getElementById("pac-input");
-    const searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener("bounds_changed", () => {
-        searchBox.setBounds(map.getBounds());
-    });
+// function initAutocomplete() {
+//     const map = new google.maps.Map(document.getElementById("map"), {
+//         center: { lat: 45.4064663, lng: -73.9435058 },
+//         zoom: 14,
+//         mapTypeId: "roadmap",
+//     });
+//     // Create the search box and link it to the UI element.
+//     const input = document.getElementById("pac-input");
+//     const searchBox = new google.maps.places.SearchBox(input);
+//     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+//     // Bias the SearchBox results towards current map's viewport.
+//     map.addListener("bounds_changed", () => {
+//         searchBox.setBounds(map.getBounds());
+//     });
 
+//     }
 
-    //ADDRULES//
-    //Load in all saved rules as a marker from DB
-    // var xmlhttp = new XMLHttpRequest();
-    // xmlhttp.onreadystatechange = function() {
-    // if (this.readyState == 4 && this.status == 200) {
-    //     var myObj = JSON.parse(this.responseText);
-    //     document.getElementById("demo").innerHTML = myObj.name;
-    // }
-    // };
-    // xmlhttp.open("GET", "main.php", true);
-    // xmlhttp.send(); 
+//     let markers = [];
+//     // Listen for the event fired when the user selects a prediction and retrieve
+//     // more details for that place.
+//     searchBox.addListener("places_changed", () => {
+//         const places = searchBox.getPlaces();
 
-    }
-
-    function placeMarkers(lat, lng) {
-        const myLatLng = { lat: lat, lng: lng };
-        new google.maps.Marker({
-        position: myLatLng,
-        map,
-            title: "Saved Rule (PLACEHOLDER)",
-    });
-
-    //TODO
-    //Find a way to load in an array with all of the rules, then call the method on each one
-    
-    //placeholder marker
-    placeMarkers(45.4083851,-73.9435058);
-    //ADDRULES STOP
-
-
-    let markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener("places_changed", () => {
-        const places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-            return;
-        }
-        // Clear out the old markers.
-        markers.forEach((marker) => {
-            marker.setMap(null);
-        });
-        markers = [];
-        // For each place, get the icon, name and location.
-        const bounds = new google.maps.LatLngBounds();
-        places.forEach((place) => {
-            if (!place.geometry || !place.geometry.location) {
-                console.log("Returned place contains no geometry");
-                return;
-            }
-            const icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25),
-            };
+//         if (places.length == 0) {
+//             return;
+//         }
+//         // Clear out the old markers.
+//         markers.forEach((marker) => {
+//             marker.setMap(null);
+//         });
+//         markers = [];
+//         // For each place, get the icon, name and location.
+//         const bounds = new google.maps.LatLngBounds();
+//         places.forEach((place) => {
+//             if (!place.geometry || !place.geometry.location) {
+//                 console.log("Returned place contains no geometry");
+//                 return;
+//             }
+//             const icon = {
+//                 url: place.icon,
+//                 size: new google.maps.Size(71, 71),
+//                 origin: new google.maps.Point(0, 0),
+//                 anchor: new google.maps.Point(17, 34),
+//                 scaledSize: new google.maps.Size(25, 25),
+//             };
                 
-            // Create a marker for each place.
-            markers.push(
-                new google.maps.Marker({
-                    map,
-                    icon,
-                    title: place.name,
-                    position: place.geometry.location,
-                })
-            );
+//             // Create a marker for each place.
+//             markers.push(
+//                 new google.maps.Marker({
+//                     map,
+//                     icon,
+//                     title: place.name,
+//                     position: place.geometry.location,
+//                 })
+//             );
                 
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-        });
-        map.fitBounds(bounds);
-    });
-}
+//             if (place.geometry.viewport) {
+//                 // Only geocodes have viewport.
+//                 bounds.union(place.geometry.viewport);
+//             } else {
+//                 bounds.extend(place.geometry.location);
+//             }
+//         });
+//         map.fitBounds(bounds);
+//     });
+// }
 
-let map;
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 45.4064663, lng: -73.9435058 },
-        zoom: 8,
-    });
-}
-
+// let map;
 
 // function initMap() {
-//     const map = new google.maps.Map(document.getElementById("map"), {
-//       zoom: 8,
-//       center: { lat: -34.397, lng: 150.644 },
+//     map = new google.maps.Map(document.getElementById("map"), {
+//         center: { lat: 45.4064663, lng: -73.9435058 },
+//         zoom: 8,
 //     });
-//     const geocoder = new google.maps.Geocoder();
-//     document.getElementById("submit").addEventListener("click", () => {
-//       geocodeAddress(geocoder, map);
-//     });
-//   }
-  
-//   function geocodeAddress(geocoder, resultsMap) {
-//     const address = document.getElementById("address").value;
-//     geocoder.geocode({ address: address }, (results, status) => {
-//       if (status === "OK") {
-//         resultsMap.setCenter(results[0].geometry.location);
-//         new google.maps.Marker({
-//           map: resultsMap,
-//           position: results[0].geometry.location,
-//         });
-//       } else {
-//         alert("Geocode was not successful for the following reason: " + status);
-//       }
-//     });
-//   }
-  
+// }
