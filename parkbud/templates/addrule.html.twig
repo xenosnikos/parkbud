@@ -37,6 +37,7 @@
 				</div>
 
 
+				<script src="/index.js"></script>
 
 				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
@@ -329,13 +330,6 @@
 	</div>
 
 	<p id="location"></p>
-	<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    
-
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&libraries=places&callback=initMap"
-    type="text/javascript"></script>
-
-	
 	{% block scripts %}
 
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -355,120 +349,7 @@ $("#longitude").val(place.geometry.viewport.La.g)
 $("#latitude").val(place.geometry.viewport.Ua.g)
 $("#streetname").val(place.address_components[1].short_name)
 });
-
-  let map;
-
-function initMap() {
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: { lat: 45.4064663, lng: -73.9435058 },
-        zoom: 3,
-        mapTypeId: "roadmap",
-    });
-
-    // Create the search box and link it to the UI element.
-    const input = document.getElementById("pac-input");
-    const searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener("bounds_changed", () => {
-        searchBox.setBounds(map.getBounds());
-    });
-    let markers = [];
-    // Listen for the event fired when the user selects a prediction and retrieve
-    // more details for that place.
-    searchBox.addListener("places_changed", () => {
-        const places = searchBox.getPlaces();
-
-        if (places.length == 0) {
-            return;
-        }
-        // Clear out the old markers.
-        markers.forEach((marker) => {
-            marker.setMap(null);
-        });
-        markers = [];
-        // For each place, get the icon, name and location.
-        const bounds = new google.maps.LatLngBounds();
-        places.forEach((place) => {
-            if (!place.geometry || !place.geometry.location) {
-                console.log("Returned place contains no geometry");
-                return;
-            }
-            const icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25),
-            };
-                
-            // Create a marker for each place.
-            markers.push(
-                new google.maps.Marker({
-                    map,
-                    icon,
-                    title: place.name,
-                    position: place.geometry.location,
-                })
-            );
-                
-            if (place.geometry.viewport) {
-                // Only geocodes have viewport.
-                bounds.union(place.geometry.viewport);
-            } else {
-                bounds.extend(place.geometry.location);
-            }
-        });
-        map.fitBounds(bounds);
-    });
-    const iconBase =
-          "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
-        const icons = {
-          parking: {
-            icon: iconBase + "parking_lot_maps.png",
-          },
-          library: {
-            icon: iconBase + "library_maps.png",
-          },
-          info: {
-            icon: iconBase + "info-i_maps.png",
-          },
-        };
-  
-      var marker;
-      var markerLatLng;
-      const features = [];
-
-      {% for rule in rulesList %}
-
-      features.push(         
-                {
-                  position: new google.maps.LatLng(
-                    {{rule.latitude}},
-                    {{rule.longitude}}
-                  ),
-                  type: "parking",
-      });
-    
-      // Create markers.
-      for (let i = 0; i < features.length; i++) {
-            const marker = new google.maps.Marker({
-              position: features[i].position,
-              icon: icons[features[i].type].icon,
-              
-              map: map,
-            });
-          }
-
-    {% endfor %}
-  
-  }
-  
-
-
 		</script>
 	{% endblock scripts %}
-
-	
 
 {% endblock %}
