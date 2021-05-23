@@ -36,6 +36,9 @@ body {
 
 #mainParkHeader {
     text-align: center;
+    margin: 200rem;
+    font-family: 'Times New Roman', Times, serif;
+    padding: 200rem;
 }
 
 #map #infowindow-content {
