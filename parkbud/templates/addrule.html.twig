@@ -30,7 +30,228 @@
 
 				<!--   MAP LEFT COLUMN -->
 
-				<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
+				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+
+    
+	
+    <style type="text/css">
+    #map {
+        height: 100%;
+      }
+
+    /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        
+      }
+    </style>
+
+    
+    <p id="mainParkHeader" >Where would you like to add parking rule?</p>
+
+    <input
+      id="pac-input"
+      class="controls rounded center col-md-6"
+      type="text"
+      placeholder="Search Box"
+      
+    />
+    
+    <div id="mainMapContainer">
+      <div id="map" style="height:600px;width:800px;"></div>
+    </div>
+    <p id="demo"></p>
+
+<script>
+  let map;
+
+function initMap() {
+// start test
+	function sideRole(role) {
+	$("#sideFlag").val(role)
+	}
+	function pmRole(role) {
+	$("#pmVal").val(role)
+	}
+
+// end test
+
+
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 45.484173, lng: -73.610487 },  
+        zoom: 10,
+        mapTypeId: "roadmap",
+    });
+
+    // Create the search box and link it to the UI element.
+    const input = document.getElementById('pac-input');
+	// var autocomplete = new google.maps.places.Autocomplete(input);   // NEW
+    const searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	
+	// google.maps.event.addListener(autocomplete, 'place_changed', function () {	// NEW
+	// var place = autocomplete.getPlace();				// NEW
+	// $("#longitude").val(place.geometry.viewport.La.g) 	// NEW
+	// $("#latitude").val(place.geometry.viewport.Ua.g)	// NEW
+	// $("#streetname").val(place.address_components[1].short_name)	// NEW
+	// });							// NEW
+
+
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener("bounds_changed", () => {
+        searchBox.setBounds(map.getBounds());
+    });
+    let markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener("places_changed", () => {
+        const places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+            return;
+        }
+        // Clear out the old markers.
+        markers.forEach((marker) => {
+            marker.setMap(null);
+        });
+        markers = [];
+        // For each place, get the icon, name and location.
+        const bounds = new google.maps.LatLngBounds();
+        places.forEach((place) => {
+            if (!place.geometry || !place.geometry.location) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+            const icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25),
+            };
+                
+            // Create a marker for each place.
+            markers.push(
+                new google.maps.Marker({
+                    map,
+                    icon,
+                    title: place.name,
+                    position: place.geometry.location,
+                })
+            );
+                
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
+        const iconBase =
+          "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+        const icons = {
+          parking: {
+            icon: iconBase + "parking_lot_maps.png",
+          },
+          library: {
+            icon: iconBase + "library_maps.png",
+          },
+          info: {
+            icon: iconBase + "info-i_maps.png",
+          },
+        };
+  
+      var marker;
+      var markerLatLng;
+      const features = [];
+
+      var InfoObj = [];
+      // addMarkerInfo();
+
+      {% for rule in rulesList %}
+
+      features.push(         
+                {
+                  placeName: '<b>Parking rule:</b> <br>Coordinates: ({{rule.latitude}}, {{rule.longitude}})<br> Street name: {{rule.streetName}}',
+                  periodStartEnd: 'Period start: {{rule.periodStart}}<br>Period end: {{rule.periodEnd}}',
+                  parkingMeterEvenOdd: 'Parking meter(No:0/Yes:1): {{rule.parkingMeter}}<br>Even side:0/Odd side:1: {{rule.sideFlag}}',
+                  days: 'Monday: {{rule.mondayStart}} to {{rule.mondayEnd}}<br>Tuesday: {{rule.tuesdayStart}} to {{rule.tuesdayEnd}}<br>Wednesday: {{rule.wednesdayStart}} to {{rule.wednesdayEnd}}<br>Thursday: {{rule.thursdayStart}} to {{rule.thursdayEnd}}<br>Friday: {{rule.fridayStart}} to {{rule.fridayEnd}}<br>Saturday: {{rule.saturdayStart}} to {{rule.saturdayEnd}}<br>Sunday: {{rule.sundayStart}} to {{rule.sundayEnd}}',
+                  createdAt: 'Posted on: {{rule.createdTS}}',
+                  image: '{{rule.image}}',
+                  position: new google.maps.LatLng(
+                    {{rule.latitude}},
+                    {{rule.longitude}}
+                  ),
+                  type: "parking",
+      });
+    
+      // Create markers.
+      for (let i = 0; i < features.length; i++) {
+            var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].days + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>'
+            ;
+
+            const marker = new google.maps.Marker({
+              position: features[i].position,
+              icon: icons[features[i].type].icon,
+              
+              map: map,
+            });
+            
+
+            const infowindow = new google.maps.InfoWindow({
+                content:  contentString,
+                
+            });
+
+            marker.addListener("click", function() {
+              closeOtherInfo();
+              infowindow.open(marker.get('map'), marker);
+              InfoObj[0] = infowindow;
+            });
+
+            function closeOtherInfo() {
+              if( InfoObj.length > 0 ) {
+                InfoObj[0].set("marker", null);
+                InfoObj[0].close();
+                InfoObj[0].length = 0;
+              }
+            }
+
+    }
+
+    
+
+    {% endfor %}
+  
+  }
+  
+
+</script>
+
+<body>
+    
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    
+
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&libraries=places&callback=initMap"
+    type="text/javascript"></script>
+
+  </body>
+
+
+
+
+
+<!--
+				<input id="pac-input" class="controls rounded" type="text" placeholder="Type Adress or Street"/>
 
 				<div id="mainMapContainer">
 					<div class="map" style="height:800px;width:100%;" id="map"></div>
@@ -40,9 +261,9 @@
 				<script src="/index.js"></script>
 
 				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. 
 				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
-
+-->
 			</div>
 
 			<div class="col-sm-1"></div>
@@ -349,21 +570,17 @@
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 
 		<script>
-			function sideRole(role) {
-$("#sideFlag").val(role)
-}
-function pmRole(role) {
-$("#pmVal").val(role)
-}
-var input = document.getElementById('pac-input');
-var autocomplete = new google.maps.places.Autocomplete(input);
-google.maps.event.addListener(autocomplete, 'place_changed', function () {
-var place = autocomplete.getPlace();
-$("#longitude").val(place.geometry.viewport.La.g)
-$("#latitude").val(place.geometry.viewport.Ua.g)
-$("#streetname").val(place.address_components[1].short_name)
-});
+				var input = document.getElementById('pac-input');
+				var autocomplete = new google.maps.places.Autocomplete(input);
+				google.maps.event.addListener(autocomplete, 'place_changed', function () {
+				var place = autocomplete.getPlace();
+				$("#longitude").val(place.geometry.viewport.La.g)
+				$("#latitude").val(place.geometry.viewport.Ua.g)
+				$("#streetname").val(place.address_components[1].short_name)
+				});
 		</script>
 	{% endblock scripts %}
 
 {% endblock %}
+
+

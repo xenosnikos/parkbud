@@ -36,7 +36,10 @@ body {
 
 #mainParkHeader {
     text-align: center;
-    
+    margin-top: 20px;
+    margin-bottom: 20px;
+    justify-content: center;
+    display: flexbox;
 }
 
 #map #infowindow-content {
@@ -75,8 +78,8 @@ body {
     font-family: Roboto;
     font-size: 15px;
     font-weight: 300;
-    margin-left: 12px;
-    padding: 0 11px 0 13px;
+    margin: 12px;
+    padding: 11px;
     text-overflow: ellipsis;
     width: 400px;
 }
