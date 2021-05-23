@@ -11,8 +11,39 @@ require_once 'init.php';
 // STATE 1: first display
 $app->get("/addrule", function ($request, $response, $args) {
     global $twig;
+    $rulesList = DB::query("SELECT * FROM addrule");
+    // print_r($rulesList);
+
+    //[{streetName: '123 street', latitude: 55, longitude: 70},{streetName: '123 street', latitude: 55, longitude: 70}]
+    $list = array();
+    foreach ($rulesList as $rule) {
+        $list[] = ['streetName' => $rule['streetName'],
+         'latitude' => $rule['latitude'], 
+         'longitude' => $rule['longitude'], 
+         'image' => $rule['image'], 
+         'periodStart' => $rule['periodStart'],
+         'periodEnd' => $rule['periodEnd'],
+         'parkingMeter' => $rule['parkingMeter'],
+         'sideFlag' => $rule['sideFlag'],
+         'mondayStart' => $rule['mondayStart'],
+         'mondayEnd' => $rule['mondayEnd'],
+         'tuesdayStart' => $rule['tuesdayStart'],
+         'tuesdayEnd' => $rule['tuesdayEnd'],
+         'wednesdayStart' => $rule['wednesdayStart'],
+         'wednesdayEnd' => $rule['wednesdayEnd'],
+         'thursdayStart' => $rule['thursdayStart'],
+         'thursdayEnd' => $rule['thursdayEnd'],
+         'fridayStart' => $rule['fridayStart'],
+         'fridayEnd' => $rule['fridayEnd'],
+         'saturdayStart' => $rule['saturdayStart'],
+         'saturdayEnd' => $rule['saturdayEnd'],
+         'sundayStart' => $rule['sundayStart'],
+         'sundayEnd' => $rule['sundayEnd'],
+         'createdTS' => $rule['createdTS']
+        ];
+    }
     // return $response->write($twig->render('register.html.twig', ['title' => 'Parkbud']));
-    return $this->view->render($response, 'addrule.html.twig');
+    return $this->view->render($response, 'addrule.html.twig', ['title' => 'Parkbud.ca', 'rulesList' => $list]);
 });
 
 // Fetch DI Container
