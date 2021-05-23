@@ -137,7 +137,8 @@
 		{% endblock nav %}
 		<div>{% if userSession %}<p class="py-2 px-4 text-primary float-sm-right">You are logged in as <b>{{ userSession.userName }}</b></p>{% endif %}{% if flashMessage %}
 		<div id="flashMessage" class="alert alert-info">{{flashMessage}}</div>{% endif %}</div> 
-		{% block content %}{% endblock content %}
+		{% block content %}
+		{% endblock content %}
 		<!-- Footer -->
 <footer class="text-center text-lg-start bg-light text-muted">
   
