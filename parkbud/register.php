@@ -201,7 +201,7 @@ $app->post('/login', function ($request, $response, $args) use ($log) {
         if(strcmp($record['role'],'user') === 0){
             return $response->withRedirect("/");
         } elseif (strcmp($record['role'],'admin') === 0){
-            return $response->withRedirect("/addrule");
+            return $response->withRedirect("/");
         }
     }
 });
