@@ -1,12 +1,5 @@
 {% extends "master.html.twig" %}
 
-{% block stylesheet %}
-	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="/css/style.css">
-{% endblock stylesheet %}
-
 {% block title %} {{title}} {% endblock title %}
 
 {% block content %}
@@ -32,14 +25,13 @@
     </style>
 
     
-    <h3 id="mainParkHeader">Where would you like to park today?</h3>
+    <h3 id="mainParkHeader" >Where would you like to park today?</h3>
 
     <input
       id="pac-input"
-      class="controls rounded center col-md-6"
+      class="controls"
       type="text"
       placeholder="Search Box"
-      
     />
     
     <div id="mainMapContainer">
@@ -141,6 +133,7 @@ function initMap() {
                 {
                   placeName: '<b>Parking rule:</b> <br>Coordinates: ({{rule.latitude}}, {{rule.longitude}})<br> Street name: {{rule.streetName}}',
                   periodStartEnd: 'Period start: {{rule.periodStart}}<br>Period end: {{rule.periodEnd}}',
+                
                   parkingMeterEvenOdd: 'Parking meter(No:0/Yes:1): {{rule.parkingMeter}}<br>Even side:0/Odd side:1: {{rule.sideFlag}}',
                   days: 'Monday: {{rule.mondayStart}} to {{rule.mondayEnd}}<br>Tuesday: {{rule.tuesdayStart}} to {{rule.tuesdayEnd}}<br>Wednesday: {{rule.wednesdayStart}} to {{rule.wednesdayEnd}}<br>Thursday: {{rule.thursdayStart}} to {{rule.thursdayEnd}}<br>Friday: {{rule.fridayStart}} to {{rule.fridayEnd}}<br>Saturday: {{rule.saturdayStart}} to {{rule.saturdayEnd}}<br>Sunday: {{rule.sundayStart}} to {{rule.sundayEnd}}',
                   createdAt: 'Posted on: {{rule.createdTS}}',
