@@ -35,5 +35,8 @@
 #flashMessage {
     background-color: green;
     font-weight: bold;
-    
+}
+
+.red {
+    color: red;
 }

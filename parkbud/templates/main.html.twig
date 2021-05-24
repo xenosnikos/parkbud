@@ -128,14 +128,14 @@ function initMap() {
       // addMarkerInfo();
 
       {% for rule in rulesList %}
-
       features.push(         
                 {
-                  placeName: '<b>Parking rule:</b> <br>Coordinates: ({{rule.latitude}}, {{rule.longitude}})<br> Street name: {{rule.streetName}}',
-                  periodStartEnd: 'Period start: {{rule.periodStart}}<br>Period end: {{rule.periodEnd}}',
+                  placeName: '<b>Parking rule:</b> <br>Street name: {{rule.streetName}} <br>',
+                  periodStartEnd: 'Period :<br> <b>From {{rule.periodStart}} To {{rule.periodEnd}}</b><br> These are the time where Parking is <span style="color:red">PROHIBITED</span></em></b>',
                 
-                  parkingMeterEvenOdd: 'Parking meter(No:0/Yes:1): {{rule.parkingMeter}}<br>Even side:0/Odd side:1: {{rule.sideFlag}}',
-                  days: 'Monday: {{rule.mondayStart}} to {{rule.mondayEnd}}<br>Tuesday: {{rule.tuesdayStart}} to {{rule.tuesdayEnd}}<br>Wednesday: {{rule.wednesdayStart}} to {{rule.wednesdayEnd}}<br>Thursday: {{rule.thursdayStart}} to {{rule.thursdayEnd}}<br>Friday: {{rule.fridayStart}} to {{rule.fridayEnd}}<br>Saturday: {{rule.saturdayStart}} to {{rule.saturdayEnd}}<br>Sunday: {{rule.sundayStart}} to {{rule.sundayEnd}}',
+                  parkingMeterEvenOdd: '{% if rule.parkingMeter != 0 %}There is a parking Meter here {% else %} There is no Parking Meter Here {% endif %} <br> ', 
+                  evenDays: '{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart}} to {{rule.mondayEnd}} {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart}} to {{rule.tuesdayEnd}} {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart}} to {{rule.wednesdayEnd}} {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart}} to {{rule.thursdayEnd}} {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart}} to {{rule.fridayEnd}} {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart}} to {{rule.saturdayEnd}} {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart}} to {{rule.sundayEnd}} {% endif %}',
+                  oddDays:  '{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart}} to {{rule.mondayEnd}} {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart}} to {{rule.tuesdayEnd}} {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart}} to {{rule.wednesdayEnd}} {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart}} to {{rule.thursdayEnd}} {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart}} to {{rule.fridayEnd}} {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart}} to {{rule.saturdayEnd}} {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart}} to {{rule.sundayEnd}} {% endif %}',
                   createdAt: 'Posted on: {{rule.createdTS}}',
                   image: '{{rule.image}}',
                   position: new google.maps.LatLng(
@@ -147,7 +147,7 @@ function initMap() {
     
       // Create markers.
       for (let i = 0; i < features.length; i++) {
-            var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].days + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>'
+            var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].evenDays + '</p>' + '<p>' + features[i].oddDays + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>' + '<br><br>' + '<a href="#" class="btn btn-danger">Dispute Rule</a>'
             ;
 
             const marker = new google.maps.Marker({
