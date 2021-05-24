@@ -120,7 +120,7 @@
 
             DB::update('user', $updateUser, "id=%d", $originUser['id']);
             $log->debug(sprintf("Admin updated user account: id=%s successfully:  uid=%d", $originUser['id'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Updated user account successfully");
+            setFlashMessage("Updated user account successfully");
             return $response->withRedirect("/admin/users/list");
         }
 });
@@ -152,7 +152,7 @@ $app->post('/admin/users/delete/{id:[0-9]+}', function($request, $response, $arg
         }
         DB::delete('user', "id=%d", $args['id']);
         $log->debug(sprintf("User deleted user id=%d successfully, uid=%d", $args['id'], $_SERVER['REMOTE_ADDR']));
-        // setFlashMessage("Delete user Successfully");
+        setFlashMessage("Deleted user Successfully");
         return $response->withRedirect("/admin/users/list");
     }
 });
@@ -173,7 +173,43 @@ $app->get('/admin/rules/edit/{id:[0-9]+}', function($request, $response, $args) 
         $response = $response->withStatus(404);
         return $this->view->render($response, '/not_found_error.html.twig');
     }
-    return $this->view->render($response, 'admin/rules_edit.html.twig', ['rule'=>$rule]);
+
+    // To show all rules
+    $rulesList = DB::query("SELECT * FROM addrule");
+    // print_r($rulesList);
+
+    //[{streetName: '123 street', latitude: 55, longitude: 70},{streetName: '123 street', latitude: 55, longitude: 70}]
+    $list = array();
+    foreach ($rulesList as $rule) {
+        $list[] = ['streetName' => $rule['streetName'],
+         'latitude' => $rule['latitude'], 
+         'longitude' => $rule['longitude'], 
+         'image' => $rule['image'], 
+         'periodStart' => $rule['periodStart'],
+         'periodEnd' => $rule['periodEnd'],
+         'parkingMeter' => $rule['parkingMeter'],
+         'sideFlag' => $rule['sideFlag'],
+         'mondayStart' => $rule['mondayStart'],
+         'mondayEnd' => $rule['mondayEnd'],
+         'tuesdayStart' => $rule['tuesdayStart'],
+         'tuesdayEnd' => $rule['tuesdayEnd'],
+         'wednesdayStart' => $rule['wednesdayStart'],
+         'wednesdayEnd' => $rule['wednesdayEnd'],
+         'thursdayStart' => $rule['thursdayStart'],
+         'thursdayEnd' => $rule['thursdayEnd'],
+         'fridayStart' => $rule['fridayStart'],
+         'fridayEnd' => $rule['fridayEnd'],
+         'saturdayStart' => $rule['saturdayStart'],
+         'saturdayEnd' => $rule['saturdayEnd'],
+         'sundayStart' => $rule['sundayStart'],
+         'sundayEnd' => $rule['sundayEnd'],
+         'createdTS' => $rule['createdTS']
+        ];
+    }
+
+
+
+    return $this->view->render($response, 'admin/rules_edit.html.twig', ['rule'=>$rule, 'rulesList' => $list]);
 });
 
 // Admin can edit parking rules
@@ -201,8 +237,8 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
     $longitude = $request->getParam('longitude');
     $latitude = $request->getParam('latitude');
     // how to preload existing image???
-    $uploadedImage = $request->getParam('image');
-    if($uploadedImage == null){
+    // $uploadedImage = $request->getParam('image');
+    // if($uploadedImage == null){
         $hasPhoto = false;
         $uploadedImage = $request->getUploadedFiles()['image'];
         if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
@@ -213,7 +249,7 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
                 $errorList[] = $result;
             } 
         }
-    }
+    // }
     //
 
     $errorList = [];
@@ -295,7 +331,7 @@ $app->post('/admin/rules/edit/{id:[0-9]+}', function ($request, $response, $args
 
             DB::update('addrule', $updateUser, "id=%d", $originRule['id']);
             $log->debug(sprintf("Admin updated rule: id=%s successfully:  uid=%d", $originRule['id'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Updated rule successfully");
+            setFlashMessage("Updated rule successfully");
             return $response->withRedirect("/admin/rules/list");
         }
     
@@ -328,7 +364,7 @@ $app->post('/admin/rules/delete/{id:[0-9]+}', function($request, $response, $arg
         }
         DB::delete('addrule', "id=%d", $args['id']);
         $log->debug(sprintf("Admin deleted rule id=%d successfully, uid=%d", $args['id'], $_SERVER['REMOTE_ADDR']));
-        // setFlashMessage("Delete user Successfully");
+        setFlashMessage("Deleted user Successfully");
         return $response->withRedirect("/admin/rules/list");
     }
 });

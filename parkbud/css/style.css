@@ -31,3 +31,9 @@
     font-family: 'Times New Roman', Times, serif;
     padding: 200rem;
 }
+
+#flashMessage {
+    background-color: green;
+    font-weight: bold;
+    
+}

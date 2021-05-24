@@ -76,3 +76,20 @@ $container['view'] = function ($c) {
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     return $view;
 };
+
+// Flash messages handling
+$container['view']->getEnvironment()->addGlobal('flashMessage', getAndClearFlashMessage());
+
+function setFlashMessage($message) {
+    $_SESSION['flashMessage'] = $message;
+}
+
+// returns empty string if no message, otherwise returns string with message and clears is
+function getAndClearFlashMessage() {
+    if (isset($_SESSION['flashMessage'])) {
+        $message = $_SESSION['flashMessage'];
+        unset($_SESSION['flashMessage']);
+        return $message;
+    }
+    return "";
+}

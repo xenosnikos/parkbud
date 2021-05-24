@@ -197,11 +197,11 @@ $app->post('/login', function ($request, $response, $args) use ($log) {
         unset($record['password']); // for security reasons remove password from session
         $_SESSION['user'] = $record; // remember user logged in
         $log->debug(sprintf("Login successful for email or username: %s, uid=%d, from %s", $emailOrUsername, $record['id'], $_SERVER['REMOTE_ADDR']));
-        // setFlashMessage("Login Successfully");
+        setFlashMessage("Login Successfully");
         if(strcmp($record['role'],'user') === 0){
             return $response->withRedirect("/");
         } elseif (strcmp($record['role'],'admin') === 0){
-            return $response->withRedirect("/addrule");
+            return $response->withRedirect("/");
         }
     }
 });
@@ -212,7 +212,7 @@ $app->get('/logout', function ($request, $response, $args) use ($log) {
         $log->debug(sprintf("Logout successful for uid=%d, from %s", @$_SESSION['user']['id'], $_SERVER['REMOTE_ADDR']));
         unset($_SESSION['user']);
         
-        // setFlashMessage("You have been logout!");
+        setFlashMessage("You have been logout!");
         return $response->withRedirect("/");
     }
 });
@@ -339,7 +339,7 @@ $app->post('/account', function ($request, $response, $args) use ($log) {
             // refresh new user data
             $_SESSION['user'] = DB::queryFirstRow("SELECT * FROM user WHERE id = %d",$originUser['id']);
             $log->debug(sprintf("Account is update uccessfully: new email %s, new userName %s, uid=%d", $_SESSION['user']['email'], $_SESSION['user']['userName'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Update user account successfully");
+            setFlashMessage("Update user account successfully");
             return $this->view->render($response, 'update_profile_success.html.twig');
         }
 
@@ -375,10 +375,45 @@ $app->get('/user/rules/edit/{id:[0-9]+}', function($request, $response, $args) u
         $response = $response->withStatus(404);
         return $this->view->render($response, '/not_found_error.html.twig');
     }
-    return $this->view->render($response, '/rules_edit.html.twig', ['rule'=>$rule]);
+
+    // To show all rules
+    $rulesList = DB::query("SELECT * FROM addrule");
+    // print_r($rulesList);
+
+    //[{streetName: '123 street', latitude: 55, longitude: 70},{streetName: '123 street', latitude: 55, longitude: 70}]
+    $list = array();
+    foreach ($rulesList as $rule) {
+        $list[] = ['streetName' => $rule['streetName'],
+         'latitude' => $rule['latitude'], 
+         'longitude' => $rule['longitude'], 
+         'image' => $rule['image'], 
+         'periodStart' => $rule['periodStart'],
+         'periodEnd' => $rule['periodEnd'],
+         'parkingMeter' => $rule['parkingMeter'],
+         'sideFlag' => $rule['sideFlag'],
+         'mondayStart' => $rule['mondayStart'],
+         'mondayEnd' => $rule['mondayEnd'],
+         'tuesdayStart' => $rule['tuesdayStart'],
+         'tuesdayEnd' => $rule['tuesdayEnd'],
+         'wednesdayStart' => $rule['wednesdayStart'],
+         'wednesdayEnd' => $rule['wednesdayEnd'],
+         'thursdayStart' => $rule['thursdayStart'],
+         'thursdayEnd' => $rule['thursdayEnd'],
+         'fridayStart' => $rule['fridayStart'],
+         'fridayEnd' => $rule['fridayEnd'],
+         'saturdayStart' => $rule['saturdayStart'],
+         'saturdayEnd' => $rule['saturdayEnd'],
+         'sundayStart' => $rule['sundayStart'],
+         'sundayEnd' => $rule['sundayEnd'],
+         'createdTS' => $rule['createdTS']
+        ];
+    }
+
+
+    return $this->view->render($response, '/rules_edit.html.twig', ['rule'=>$rule, 'rulesList' => $list]);
 });
 
-// Admin can edit parking rules
+// User can edit parking rules
 $app->post('/user/rules/edit/{id:[0-9]+}', function ($request, $response, $args) use ($log) {
     $originRule = DB::queryFirstRow("SELECT * FROM addrule WHERE id=%d", $args['id']);
     $streetName = $request->getParam('streetName');
@@ -403,8 +438,8 @@ $app->post('/user/rules/edit/{id:[0-9]+}', function ($request, $response, $args)
     $longitude = $request->getParam('longitude');
     $latitude = $request->getParam('latitude');
     // how to preload existing image???
-    $uploadedImage = $request->getParam('image');
-    if($uploadedImage == null){
+    // $uploadedImage = $request->getParam('image');
+    // if($uploadedImage == null){
         $hasPhoto = false;
         $uploadedImage = $request->getUploadedFiles()['image'];
         if ($uploadedImage->getError() != UPLOAD_ERR_NO_FILE) { // was anything uploaded?
@@ -415,7 +450,7 @@ $app->post('/user/rules/edit/{id:[0-9]+}', function ($request, $response, $args)
                 $errorList[] = $result;
             } 
         }
-    }
+    // }
     //
 
     $errorList = [];
@@ -499,7 +534,7 @@ $app->post('/user/rules/edit/{id:[0-9]+}', function ($request, $response, $args)
 
             DB::update('addrule', $updateUser, "id=%d", $originRule['id']);
             $log->debug(sprintf("User updated rule: id=%s successfully:  uid=%d", $originRule['id'], $_SERVER['REMOTE_ADDR']));
-            // setFlashMessage("Updated rule successfully");
+            setFlashMessage("Updated rule successfully");
             return $response->withRedirect("/user/rules/list");
         }
     
@@ -533,7 +568,7 @@ $app->post('/user/rules/delete/{id:[0-9]+}', function($request, $response, $args
         }
         DB::delete('addrule', "id=%d", $args['id']);
         $log->debug(sprintf("User deleted rule id=%d successfully, id=%d", $args['id'], $_SERVER['REMOTE_ADDR']));
-        // setFlashMessage("Delete user Successfully");
+        setFlashMessage("Delete rule Successfully");
         return $response->withRedirect("/user/rules/list");
     }
 });
