@@ -71,12 +71,7 @@
 
 			function initMap() {
 			// start test
-				function sideRole(role) {
-				$("#sideFlag").val(role)
-				}
-				function pmRole(role) {
-				$("#pmVal").val(role)
-				}
+				
 
 			// end test
 
@@ -92,6 +87,14 @@
 				// var autocomplete = new google.maps.places.Autocomplete(input);   // NEW
 				const searchBox = new google.maps.places.SearchBox(input);
 				map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+				
+				var autocomplete = new google.maps.places.Autocomplete(input);
+				google.maps.event.addListener(autocomplete, 'place_changed', function () {
+				var place = autocomplete.getPlace();
+				$("#longitude").val(place.geometry.viewport.La.g)
+				$("#latitude").val(place.geometry.viewport.Ua.g)
+				$("#streetname").val(place.address_components[1].short_name)
+				});
 				
 
 
@@ -171,24 +174,32 @@
 				{% for rule in rulesList %}
 
 				features.push(         
-							{
-							placeName: '<b>Parking rule:</b> <br>Coordinates: ({{rule.latitude}}, {{rule.longitude}})<br> Street name: {{rule.streetName}}',
-							periodStartEnd: 'Period start: {{rule.periodStart}}<br>Period end: {{rule.periodEnd}}',
-							parkingMeterEvenOdd: 'Parking meter(No:0/Yes:1): {{rule.parkingMeter}}<br>Even side:0/Odd side:1: {{rule.sideFlag}}',
-							days: 'Monday: {{rule.mondayStart}} to {{rule.mondayEnd}}<br>Tuesday: {{rule.tuesdayStart}} to {{rule.tuesdayEnd}}<br>Wednesday: {{rule.wednesdayStart}} to {{rule.wednesdayEnd}}<br>Thursday: {{rule.thursdayStart}} to {{rule.thursdayEnd}}<br>Friday: {{rule.fridayStart}} to {{rule.fridayEnd}}<br>Saturday: {{rule.saturdayStart}} to {{rule.saturdayEnd}}<br>Sunday: {{rule.sundayStart}} to {{rule.sundayEnd}}',
-							createdAt: 'Posted on: {{rule.createdTS}}',
-							image: '{{rule.image}}',
-							position: new google.maps.LatLng(
-								{{rule.latitude}},
-								{{rule.longitude}}
-							),
-							type: "parking",
-				});
-				
-				// Create markers.
-				for (let i = 0; i < features.length; i++) {
-						var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].days + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>'
-						;
+                {
+                  placeName: '<b>Parking rule:</b> <br>Street name: {{rule.streetName}} <br>',
+                  periodStartEnd: 'Period :<br> <b>From {{rule.periodStart}} To {{rule.periodEnd}}</b><br> These are the time where Parking is <span style="color:red">PROHIBITED</span></em></b>',
+                  streetSide: '{{rule.sideFlag}}',
+                  parkingMeterEvenOdd: '{% if rule.parkingMeter != 0 %}There is a parking Meter here {% else %} There is no Parking Meter Here {% endif %} <br> ', 
+                  evenDays: '<div style="visibility: {% if rule.sideFlag == 0 %}visible;" {% else %} collapse;" {% endif %}><span style="font-weight: 900">Even Side Rules : <br><br> </span>{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart}} to {{rule.mondayEnd}} {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart}} to {{rule.tuesdayEnd}} {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart}} to {{rule.wednesdayEnd}} {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart}} to {{rule.thursdayEnd}} {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart}} to {{rule.fridayEnd}} {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart}} to {{rule.saturdayEnd}} {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart}} to {{rule.sundayEnd}} {% endif %}</div>',
+                  oddDays:  '<div style="visibility: {% if rule.sideFlag == 1 %}visible;" {% else %} collapse;" {% endif %}><span style="font-weight: 900">Odd Side Rules : <br><br> </span>{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart}} to {{rule.mondayEnd}} {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart}} to {{rule.tuesdayEnd}} {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart}} to {{rule.wednesdayEnd}} {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart}} to {{rule.thursdayEnd}} {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart}} to {{rule.fridayEnd}} {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart}} to {{rule.saturdayEnd}} {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart}} to {{rule.sundayEnd}} {% endif %}</div>',
+                  createdAt: 'Posted on: {{rule.createdTS}}',
+                  image: '{{rule.image}}',
+                  position: new google.maps.LatLng(
+                    {{rule.latitude}},
+                    {{rule.longitude}}
+                  ),
+                  type: "parking",
+      });
+    
+
+
+      // Create markers.
+
+
+
+      for (let i = 0; i < features.length; i++) {
+        
+            var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].evenDays + '</p>' + '<p>' + features[i].oddDays + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>' + '<br><br>' + '<a href="#" class="btn btn-danger">Dispute Rule</a>'
+            ;
 
 						const marker = new google.maps.Marker({
 						position: features[i].position,
@@ -296,13 +307,13 @@
 							<br>
 							<div>
 								<div class="form-check">
-									<input onclick="pmRole(0);" class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
-									<label onclick="pmRole(1);" class="form-check-label" for="yes">Yes</label>
+									<input  class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" checked>
+									<label onclick="pmRole(0);" class="form-check-label" for="yes">Yes</label>
 								</div>
 
 								<div class="form-check">
 									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="1">
-									<label class="form-check-label" for="no">No</label>
+									<label onclick="pmRole(1);"class="form-check-label" for="no">No</label>
 								</div>
 
 								<br>
@@ -312,7 +323,7 @@
 									<nav class="tabBar">
 										<ul class="nav nav-tabs" id="side-tabs" role="tab">
 											<li class="nav-item nav-link active">
-												<a onclick="siderole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
+												<a onclick= "siderole(0);" id="nav-home-tab" data-toggle="tab" href="#a" role="tab" aria-controls="nav-home" aria-selected="true">Even</a>
 											</li>
 											<li class="nav-item nav-link">
 												<a onclick="siderole(1);" id="nav-profile-tab" data-toggle="tab" href="#b" role="tab" aria-controls="nav-profile" aria-selected="false">Odd</a>
@@ -563,14 +574,12 @@
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 
 		<script>
-				var input = document.getElementById('pac-input');
-				var autocomplete = new google.maps.places.Autocomplete(input);
-				google.maps.event.addListener(autocomplete, 'place_changed', function () {
-				var place = autocomplete.getPlace();
-				$("#longitude").val(place.geometry.viewport.La.g)
-				$("#latitude").val(place.geometry.viewport.Ua.g)
-				$("#streetname").val(place.address_components[1].short_name)
-				});
+				function sideRole(role) {
+				$("#sideFlag").val(role)
+				}
+				function pmRole(role) {
+				$("#pmVal").val(role)
+				}
 		</script>
 	{% endblock scripts %}
 
