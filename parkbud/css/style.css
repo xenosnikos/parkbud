@@ -37,4 +37,10 @@
 #mainParkHeader {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 2em;
+    margin-top: 0;
+}
+
+.footer {
+    margin-top: 20px;
+    padding-top: 20px;
 }
