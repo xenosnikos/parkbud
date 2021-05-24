@@ -26,7 +26,7 @@ if (strpos($_SERVER['HTTP_HOST'], "ipd24.com") !== false) {
     // hosting on ipd24.com
     DB::$dbName = 'cp5003_parkbud';
     DB::$user = 'cp5003_parkbud';
-    DB::$password = 'jTc%Tw;s,N^I';
+    DB::$password = 'jTc%Tw;s,N^I'; 
 } else { // local computer
     DB::$dbName = 'parkbud';
     DB::$user = 'parkbud';
@@ -41,15 +41,19 @@ DB::$nonsql_error_handler = 'db_error_handler'; // runs on library errors (bad s
 
 function db_error_handler($params)
 {
-    global $log;
+    
+    global $log, $container;
     // log first
     $log->error("Database error: " . $params['error']);
     if (isset($params['query'])) {
         $log->error("SQL query: " . $params['query']);
     }
     // redirect
-    header("Location: /internalerror");
-    die;
+    // header("Location: /internalerror");
+    // die;
+    http_response_code(500); // internal server error
+    $twig = $container['view']->getEnvironment();
+    die($twig->render('error_internal.html.twig'));
 }
 
 // Create and configure Slim app
@@ -63,6 +67,7 @@ $app = new \Slim\App($config);
 $container = $app->getContainer();
 $container['upload_directory'] = __DIR__ . '/uploads';
 // Register Twig View helper
+
 $container['view'] = function ($c) {
     $view = new \Slim\Views\Twig(dirname(__FILE__) . '/templates', [
         'cache' => dirname(__FILE__) . '/tmplcache',
@@ -76,6 +81,9 @@ $container['view'] = function ($c) {
     $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
     return $view;
 };
+
+
+
 
 // Flash messages handling
 $container['view']->getEnvironment()->addGlobal('flashMessage', getAndClearFlashMessage());

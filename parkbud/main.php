@@ -63,4 +63,4 @@ $app->get("/", function ($request, $response, $args) {
 
 $app->get('/internalerror', function ($request, $response, $args) {
     return $this->view->render($response, 'error_internal.html.twig');
-});
+ });
