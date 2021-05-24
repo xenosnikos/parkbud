@@ -28,7 +28,7 @@
 
 .mainTitle {
     margin: 200rem;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Times New Roman", Times, serif;
     padding: 200rem;
 }
 
@@ -37,6 +37,7 @@
     font-weight: bold;
 }
 
-.red {
-    color: red;
+#mainParkHeader {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2em;
 }
