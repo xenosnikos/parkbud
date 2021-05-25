@@ -11,12 +11,11 @@
 
 {% block content %}
 
-	<div class="container">
+	<div class="container-fluid">
 
 
 		<h3 class="logo col-sm-12 col-6">Delete parking rule</h1>
-		<div
-			class="row">
+		<div	class="row">
 
 			<!-- if Session -->
 
@@ -24,8 +23,223 @@
 			<div
 				class="col-sm map col-md-6">
 
-				<!--   MAP LEFT COLUMN -->
+				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
 
+				<style type="text/css">
+				#map {
+					height: 100%;
+				}
+
+				/* Optional: Makes the sample page fill the window. */
+				html,
+				body {
+					height: 100%;
+					margin: 0;
+					padding: 0;
+					
+				}
+				</style>
+
+				
+				<p id="mainParkHeader" >Where would you like to edit parking rule?</p>
+
+				<input
+				id="pac-input"
+				class="controls rounded center col-md-6"
+				type="text"
+				placeholder="Search Box"
+				
+				/>
+				
+				<div id="mainMapContainer">
+				<div id="map" style="height:600px;width:800px;"></div>
+				</div>
+				<p id="demo"></p>
+
+			<script>
+			let map;;
+
+			function initMap() {
+			// start test
+				
+
+			// end test
+
+
+				map = new google.maps.Map(document.getElementById("map"), {
+					center: { lat: 45.484173, lng: -73.610487 },  
+					zoom: 10,
+					mapTypeId: "roadmap",
+				});
+
+				// Create the search box and link it to the UI element.
+				const input = document.getElementById('pac-input');
+				// var autocomplete = new google.maps.places.Autocomplete(input);   // NEW
+				const searchBox = new google.maps.places.SearchBox(input);
+				map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+				
+				
+                var autocomplete = new google.maps.places.Autocomplete(input);
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                var place = autocomplete.getPlace();
+                $("#longitude").val(place.geometry.viewport.La.g)
+                $("#latitude").val(place.geometry.viewport.Ua.g)
+                $("#streetname").val(place.address_components[1].short_name)
+                });
+
+				// Bias the SearchBox results towards current map's viewport.
+				map.addListener("bounds_changed", () => {
+					searchBox.setBounds(map.getBounds());
+				});
+				let markers = [];
+				// Listen for the event fired when the user selects a prediction and retrieve
+				// more details for that place.
+				searchBox.addListener("places_changed", () => {
+					const places = searchBox.getPlaces();
+
+					if (places.length == 0) {
+						return;
+					}
+					// Clear out the old markers.
+					markers.forEach((marker) => {
+						marker.setMap(null);
+					});
+					markers = [];
+					// For each place, get the icon, name and location.
+					const bounds = new google.maps.LatLngBounds();
+					places.forEach((place) => {
+						if (!place.geometry || !place.geometry.location) {
+							console.log("Returned place contains no geometry");
+							return;
+						}
+						const icon = {
+							url: place.icon,
+							size: new google.maps.Size(71, 71),
+							origin: new google.maps.Point(0, 0),
+							anchor: new google.maps.Point(17, 34),
+							scaledSize: new google.maps.Size(25, 25),
+						};
+							
+						// Create a marker for each place.
+						markers.push(
+							new google.maps.Marker({
+								map,
+								icon,
+								title: place.name,
+								position: place.geometry.location,
+							})
+						);
+							
+						if (place.geometry.viewport) {
+							// Only geocodes have viewport.
+							bounds.union(place.geometry.viewport);
+						} else {
+							bounds.extend(place.geometry.location);
+						}
+					});
+					map.fitBounds(bounds);
+				});
+					const iconBase =
+					"https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+					const icons = {
+					parking: {
+						icon: iconBase + "parking_lot_maps.png",
+					},
+					library: {
+						icon: iconBase + "library_maps.png",
+					},
+					info: {
+						icon: iconBase + "info-i_maps.png",
+					},
+					};
+			
+				var marker;
+				var markerLatLng;
+				const features = [];
+
+				var InfoObj = [];
+				// addMarkerInfo();
+
+				{% for rule in rulesList %}
+
+				features.push(         
+				{
+				  placeName: '<b>Parking rule:</b> <br>Street name: {{rule.streetName}} <br>',
+                  periodStartEnd: 'Period :<br> <b>From {{rule.periodStart}} To {{rule.periodEnd}}</b><br> These are the time where Parking is <span style="color:red">PROHIBITED</span></em></b>',
+                  streetSide: '{{rule.sideFlag}}',
+                  parkingMeterEvenOdd: '{% if rule.parkingMeter != 0 %}There is a parking Meter here {% else %} There is no Parking Meter Here {% endif %} <br> ', 
+                  evenDays: '<div style="display: {% if rule.sideFlag == 0 %}inline;" {% else %} none;" {% endif %}><span style="font-weight: 900">Even Side Rules : <br><br> </span>{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart|date('H:i')}} to {{rule.mondayEnd|date('H:i')}} {% else %} <b><u>Monday</u></b>: N/A {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart|date('H:i')}} to {{rule.tuesdayEnd|date('H:i')}} {% else %} <u><b>Tuesday</b></u>: N/A {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart|date('H:i')}} to {{rule.wednesdayEnd|date('H:i')}} {% else %} <u><b>Wednesday</b></u>: N/A {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart|date('H:i')}} to {{rule.thursdayEnd|date('H:i')}} {% else %} <u><b>Thursday</b></u>: N/A {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart|date('H:i')}} to {{rule.fridayEnd|date('H:i')}} {% else %} <u><b>Friday</b></u>: N/A {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart|date('H:i')}} to {{rule.saturdayEnd|date('H:i')}} {% else %} <u><b>Saturday</b></u>: N/A {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart|date('H:i')}} to {{rule.sundayEnd|date('H:i')}} {% else %} <u><b>Sunday</b></u>: N/A {% endif %}</div>',
+                  oddDays: '<div style="display: {% if rule.sideFlag == 1 %}inline;" {% else %} none;" {% endif %}><span style="font-weight: 900">Odd Side Rules : <br><br> </span>{% if rule.mondayStart != "00:00:00" %} <b><u>Monday:</u></b> {{rule.mondayStart|date('H:i')}} to {{rule.mondayEnd|date('H:i')}} {% else %} <b><u>Monday</u></b>: N/A {% endif %} <br>{% if rule.tuesdayStart != "00:00:00" %} <b><u>Tuesday:</u></b> {{rule.tuesdayStart|date('H:i')}} to {{rule.tuesdayEnd|date('H:i')}} {% else %} <u><b>Tuesday</b></u>: N/A {% endif %}<br>{% if rule.wednesdayStart != "00:00:00" %} <b><u>Wednesday:</u></b> {{rule.wednesdayStart|date('H:i')}} to {{rule.wednesdayEnd|date('H:i')}} {% else %} <u><b>Wednesday</b></u>: N/A {% endif %}<br>{% if rule.thursdayStart != "00:00:00" %} <b><u>Thursday:</u></b> {{rule.thursdayStart|date('H:i')}} to {{rule.thursdayEnd|date('H:i')}} {% else %} <u><b>Thursday</b></u>: N/A {% endif %}<br>{% if rule.fridayStart != "00:00:00" %} <b><u>Friday:</u></b> {{rule.fridayStart|date('H:i')}} to {{rule.fridayEnd|date('H:i')}} {% else %} <u><b>Friday</b></u>: N/A {% endif %}<br>{% if rule.saturdayStart != "00:00:00" %} <b><u>Saturday:</u></b> {{rule.saturdayStart|date('H:i')}} to {{rule.saturdayEnd|date('H:i')}} {% else %} <u><b>Saturday</b></u>: N/A {% endif %}<br>{% if rule.sundayStart != "00:00:00" %} <b><u>Sunday:</u></b> {{rule.sundayStart|date('H:i')}} to {{rule.sundayEnd|date('H:i')}} {% else %} <u><b>Sunday</b></u>: N/A {% endif %}</div>',
+                  createdAt: 'Posted on: {{rule.createdTS}}',
+                  image: '{{rule.image}}',
+                  position: new google.maps.LatLng(
+                    {{rule.latitude}},
+                    {{rule.longitude}}
+                  ),
+                  type: "parking",
+				});
+
+
+
+
+				
+				// Create markers.
+				for (let i = 0; i < features.length; i++) {
+					var contentString = '<p>' + features[i].placeName + '</p>' + '<p>' + features[i].periodStartEnd + '</p>' + '</p>' + '<p>' + features[i].parkingMeterEvenOdd + '</p>' + '<p>' + features[i].evenDays + '</p>' + '<p>' + features[i].oddDays + '</p>' + '<p>' + features[i].createdAt + '</p>' + '<a href="/uploads/' + features[i].image + '"><img class="img-fluid"  src="/uploads/' + features[i].image + '" width="200rem" alt="Current image"></a>' + '<br><br>' + '<a href="#" class="btn btn-danger">Dispute Rule</a>'
+            		;
+
+						const marker = new google.maps.Marker({
+						position: features[i].position,
+						icon: icons[features[i].type].icon,
+						
+						map: map,
+						});
+						
+
+						const infowindow = new google.maps.InfoWindow({
+							content:  contentString,
+							
+						});
+
+						marker.addListener("click", function() {
+						closeOtherInfo();
+						infowindow.open(marker.get('map'), marker);
+						InfoObj[0] = infowindow;
+						});
+
+						function closeOtherInfo() {
+						if( InfoObj.length > 0 ) {
+							InfoObj[0].set("marker", null);
+							InfoObj[0].close();
+							InfoObj[0].length = 0;
+						}
+						}
+
+				}
+
+				
+
+				{% endfor %}
+			
+			}
+			
+
+			</script>
+
+			<body>
+				
+
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				
+
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaIDYagxIULOH3ghDCLMJvuGLGQ9hXJh8&libraries=places&callback=initMap"
+				type="text/javascript"></script>
+
+			</body>
+
+				<!--   MAP LEFT COLUMN -->
+				<!--
 				<input id="pac-input" class="controls" type="text" placeholder="Type Adress or Street"/>
 
 				<div id="mainMapContainer">
@@ -36,9 +250,10 @@
 				<script src="/index.js"></script>
 
 				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-				<!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+				<!-- Async script executes immediately and must be after any DOM elements used in callback. 
 				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLoTwm91EVWlIY1yMAfFmLQVQeUB7espA&callback=initAutocomplete&libraries=places&v=weekly&callback=initAutocomplete"></script>
-                <p>longitude: {{ rule.longitude }} , latitude: {{ rule.latitude }}</p>
+                
+				-->
 			</div>
             
 			<div class="col-1"></div>
@@ -53,9 +268,10 @@
 						method="POST" enctype="multipart/form-data">
 
 						<!-- Display Street Name from Map Search -->
-						<input name="sideFlag" id="sideFlag" type="hidden"/>
-						<input name="longitude" id="longitude" type="hidden"/>
-						<input name="latitude" id="latitude" type="hidden"/>
+						<input name="sideFlag" id="sideFlag" type="hidden" value="{{rule.sideFlag}}"/>
+						<input name="pmVal" id="pmVal" type="hidden" value="{{rule.parkingMeter}}"/>
+						<input name="longitude" id="longitude" type="hidden" value="{{rule.longitude}}"/>
+						<input name="latitude" id="latitude" type="hidden" value="{{rule.latitude}}"/>
 						<div class="form-group row text-center">
 							<label for="streetname">Street Name</label>
 							<input type="text" class="form-control" id="streetname" name="streetName" value="{{ rule.streetName }}" placeholder="street name">
@@ -77,15 +293,15 @@
 							<label for="parkingMeter">Does This Space have a parking meter?</label>
 							<div>
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="parkingMeter" id="noPm" 
+									<input onclick="checkRadio(id);" class="form-check-input" type="radio" name="parkingMeter" id="yesPm" value="1" 
                                     {% if rule.parkingMeter == 1 %} checked {% endif %} >
-									<label class="form-check-label" for="yes">Yes</label>
+									<label class="form-check-label" for="parkingMeter">Yes</label>
 								</div>
 
 								<div class="form-check">
-									<input class="form-check-input" type="radio" name="parkingMeter" id="yesPm" 
+									<input onclick="checkRadio(id);" class="form-check-input" type="radio" name="parkingMeter" id="noPm" value="0" 
                                     {% if rule.parkingMeter == 0 %} checked {% endif %} >
-									<label class="form-check-label" for="no">No</label>
+									<label class="form-check-label" for="parkingMeter">No</label>
 								</div>
 								<div></div>
 								<br>
@@ -181,17 +397,11 @@
 
 
 												</div>
-
-												<div
-													class="tab-pane" id="tue">
-
-
+												<div class="tab-pane" id="tue">
 													<!-- Set No Parking restriction times per Day -->
 													<h3>Tueday</h3>
 													<div class="form-check container-fluid daySlot">
 														<div class="">
-
-
 															<div class="col">
 																start<input class="timeInput" name="tuesdayStart" id="tuesdayStart" type="time" mdp-time-picker
                                                                 {% if rule.tuesdayStart != 0 %} value="{{rule.tuesdayStart}}" {% endif %}
@@ -344,6 +554,8 @@
 				<!-- Else Log in -->
 
 
+					</div>
+				</div>
 			</div>
 			<p id="location"></p>
 			{% block scripts %}
@@ -352,17 +564,22 @@
 
 				<script>
 					function sideRole(role) {
-                $("#sideFlag").val(role)
-                }
+					$("#sideFlag").val(role)
+					}
+					// function pmRole(role) {
+					// $("#pmVal").val(role)
+					// }
 
-                var input = document.getElementById('pac-input');
-                var autocomplete = new google.maps.places.Autocomplete(input);
-                google.maps.event.addListener(autocomplete, 'place_changed', function () {
-                var place = autocomplete.getPlace();
-                $("#longitude").val(place.geometry.viewport.La.g)
-                $("#latitude").val(place.geometry.viewport.Ua.g)
-                $("#streetname").val(place.address_components[1].short_name)
-                });
+					function checkRadio(id) {
+						if(id == "yesPm"){
+							console.log("Choice: ", 1);
+							$("#pmVal").val(1);  
+
+						} else if (id == "noPm"){
+							console.log("Choice: ", 0);
+							$("#pmVal").val(0);  
+						}
+					}
 				</script>
 			{% endblock scripts %}
 

@@ -552,7 +552,44 @@ $app->get('/user/rules/delete/{id:[0-9]+}', function($request, $response, $args)
             $response = $response->withStatus(404);
             return $this->view->render($response, '/error_notfound.html.twig');
         }
-        return $this->view->render($response, 'rule_delete.html.twig', ['rule'=>$originRule]);
+
+        
+         // To show all rules
+        $rulesList = DB::query("SELECT * FROM addrule");
+        // print_r($rulesList);
+
+        //[{streetName: '123 street', latitude: 55, longitude: 70},{streetName: '123 street', latitude: 55, longitude: 70}]
+        $list = array();
+        foreach ($rulesList as $rule) {
+            $list[] = ['streetName' => $rule['streetName'],
+            'latitude' => $rule['latitude'], 
+            'longitude' => $rule['longitude'], 
+            'image' => $rule['image'], 
+            'periodStart' => $rule['periodStart'],
+            'periodEnd' => $rule['periodEnd'],
+            'parkingMeter' => $rule['parkingMeter'],
+            'sideFlag' => $rule['sideFlag'],
+            'mondayStart' => $rule['mondayStart'],
+            'mondayEnd' => $rule['mondayEnd'],
+            'tuesdayStart' => $rule['tuesdayStart'],
+            'tuesdayEnd' => $rule['tuesdayEnd'],
+            'wednesdayStart' => $rule['wednesdayStart'],
+            'wednesdayEnd' => $rule['wednesdayEnd'],
+            'thursdayStart' => $rule['thursdayStart'],
+            'thursdayEnd' => $rule['thursdayEnd'],
+            'fridayStart' => $rule['fridayStart'],
+            'fridayEnd' => $rule['fridayEnd'],
+            'saturdayStart' => $rule['saturdayStart'],
+            'saturdayEnd' => $rule['saturdayEnd'],
+            'sundayStart' => $rule['sundayStart'],
+            'sundayEnd' => $rule['sundayEnd'],
+            'createdTS' => $rule['createdTS']
+            ];
+        }
+
+
+
+        return $this->view->render($response, 'rule_delete.html.twig', ['rule'=>$originRule, 'rulesList' => $list]);
     }
 });
 
