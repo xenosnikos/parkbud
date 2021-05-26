@@ -24,14 +24,14 @@ $log->pushProcessor(function ($record) {
 
 if (strpos($_SERVER['HTTP_HOST'], "ipd24.com") !== false) {
     // hosting on ipd24.com
-    DB::$dbName = 'cp5003_parkbud';
-    DB::$user = 'cp5003_parkbud';
-    DB::$password = 'jTc%Tw;s,N^I'; 
+    DB::$dbName = 'cp5003_parkbudfinal';
+    DB::$user = 'cp5003_parkbudfinal';
+    DB::$password = 'zOYmMSfJ96;*';      // jTc%Tw;s,N^I
 } else { // local computer
     DB::$dbName = 'parkbud';
     DB::$user = 'parkbud';
     DB::$host = 'localhost';
-    DB::$password = ']sKM*hpv[B65cs*4';
+    DB::$password = '_AOa)t2W@9E/a@05';
     DB::$port = 3333;
 }
 
@@ -49,11 +49,11 @@ function db_error_handler($params)
         $log->error("SQL query: " . $params['query']);
     }
     // redirect
-    // header("Location: /internalerror");
-    // die;
-    http_response_code(500); // internal server error
-    $twig = $container['view']->getEnvironment();
-    die($twig->render('error_internal.html.twig'));
+     header("Location: /internalerror");
+     die;
+    // http_response_code(500); // internal server error
+    // $twig = $container['view']->getEnvironment();
+    // die($twig->render('error_internal.html.twig'));
 }
 
 // Create and configure Slim app
